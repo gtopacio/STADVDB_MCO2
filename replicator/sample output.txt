@@ -1,0 +1,54 @@
+writerows
+[
+  'timestamp',
+  'nextPosition',
+  'size',
+  '_zongji',
+  'tableId',
+  'flags',
+  'useChecksum',
+  'extraDataLength',
+  'numberOfColumns',
+  'tableMap',
+  'columns_present_bitmap',
+  'rows'
+] [ { id: 412321, name: 'A Movie', year: 2001, rank: null } ]
+
+updaterows
+[
+  '_hasTwoRows',
+  'timestamp',
+  'nextPosition',
+  'size',
+  '_zongji',
+  'tableId',
+  'flags',
+  'useChecksum',
+  'extraDataLength',
+  'numberOfColumns',
+  'tableMap',
+  'columns_present_bitmap',
+  'columns_present_bitmap2',
+  'rows'
+] [
+  {
+    before: { id: 412321, name: 'A Movie', year: 2001, rank: null },
+    after: { id: 412321, name: 'A Movie', year: 1980, rank: null }
+  }
+]
+
+deleterows
+[
+  'timestamp',
+  'nextPosition',
+  'size',
+  '_zongji',
+  'tableId',
+  'flags',
+  'useChecksum',
+  'extraDataLength',
+  'numberOfColumns',
+  'tableMap',
+  'columns_present_bitmap',
+  'rows'
+] [ { id: 412321, name: 'A Movie', year: 1980, rank: null } ]
