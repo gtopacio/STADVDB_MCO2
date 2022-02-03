@@ -23,6 +23,7 @@
     "@vlasky/zongji": "^0.5.8",
     "dotenv": "^14.3.2",
     "express": "^4.17.2",
+    "kafkajs": "^1.15.0",
     "mysql2": "^2.3.3"
   }
 }

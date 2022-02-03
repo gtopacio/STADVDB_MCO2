@@ -1,0 +1,6 @@
+{
+    "origin": ["central", "l1980", "ge1980"],
+    "timestamp": "number or vector clock",
+    "type": ["insert", "update", "delete"],
+    "rows": ["rows here"]
+}
