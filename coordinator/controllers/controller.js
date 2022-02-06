@@ -7,8 +7,8 @@ const controller = {
     var query1 = req.body.query1;
     var query2 = req.body.query2;
 
-    var queries1 = query1.split(",");
-    var queries2 = query2.split(",");
+    var queries1 = query1.split(";");
+    var queries2 = query2.split(";");
 
     for (i = 0; i < queries1.length; i++)
       queries1[i] = queries1[i].trim();
