@@ -19,8 +19,13 @@ function binlogHandler(evt) {
     let changeData = formulateChange({evt});
     if(!changeData)
         return;
-    console.log("Bin Log", changeData);
-    handler(changeData);
+
+    let stringified = JSON.stringify(changeData);
+    let parsed = JSON.parse(stringified);
+    // console.log("Bin Log", stringified);
+    // console.log(parsed);
+    // console.log(new Date(parsed.rows[0].lastUpdated));
+    handler(parsed);
     // kafkaProducer.publishChange({topic: changeTopicName, value: JSON.stringify(changeData)});
 }
 
