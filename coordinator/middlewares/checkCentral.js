@@ -19,4 +19,4 @@ async function checkCentral (req, res, next) {
   }
 }
 
-module.export = checkCentral;
+module.exports = checkCentral;
