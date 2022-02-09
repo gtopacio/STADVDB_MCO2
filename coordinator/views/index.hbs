@@ -12,6 +12,9 @@
     <input type="submit" value="Submit">
   </form>
 
+  <button id="ping">PING</button>
+
+
   <script>
     $(document).ready(function () {
       $("#formSubmit").submit(function(event) {
@@ -24,6 +27,12 @@
         });
         posting.fail(function() {
           alert("Error in transaction");
+        });
+      });
+
+      $("button").click(function(){
+        $.get("/ping", function(data, status){
+          alert(data);
         });
       });
     });

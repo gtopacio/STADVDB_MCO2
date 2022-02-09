@@ -38,8 +38,16 @@ const controller = {
     //res.send(results);
   },
 
-  ping: function(req, res){
-    res.send("success");
+  ping: async function(req, res){
+    //res.send("success");
+    try {
+      let ping = await db.ping();
+      console.log(ping);
+      res.send("LOCAL IS ALIVE")
+    } catch(e) {
+      console.log("DOWN");
+      res.send("LOCAL IS DOWN");
+    }
   }
 };
 
