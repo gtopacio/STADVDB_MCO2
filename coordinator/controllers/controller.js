@@ -24,14 +24,14 @@ const controller = {
     console.log(queries2);
 
     // BACKEND CODE
-    // try{
-    //   let results = await db.executeTransaction(req.body);
-    //   res.send(results);
-    // }
-    // catch(e){
-    //     console.error(e);
-    //     res.send({e});
-    // }
+    try{
+      let results = await db.executeTransaction(req.body);
+      res.send(results);
+    }
+    catch(e){
+        console.error(e);
+        res.send({e});
+    }
 
     //const { queries } = queries1;
     //let results = await db.executeTransaction(queries);
