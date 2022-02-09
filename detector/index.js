@@ -9,6 +9,7 @@ const formulateChange = require('../lib/formulateChange');
 
 require('dotenv').config();
 const changeTopicName = process.env.CHANGE_TOPIC_NAME;
+let timeOut;
 
 let zongji = new ZongJi({ 
     user: process.env.REPLICATOR_USERNAME,
@@ -22,12 +23,25 @@ zongji.on('binlog', async function(evt) {
     kafkaProducer.publishChange({topic: changeTopicName, value: JSON.stringify(changeData)});
 });
 
+zongji.on('error', retryConnection);
+
+function retryConnection(){
+    console.log("Detector Error, restarting connection...");
+    zongji.stop();
+    timeOut = setTimeout(start, 1000);
+}
+
 function start(){
+    if(timeOut){
+        clearTimeout(timeOut);
+    }
+    console.log("Detector is starting...")
     try{
         zongji.start({
             includeEvents: ['tablemap','writerows', 'updaterows', 'deleterows'],
             startAtEnd: true
         });
+        console.log("Detector started");
     }
     catch(e){
         console.error(e);
@@ -35,6 +49,7 @@ function start(){
 }
 
 function stop(){
+    clearTimeout(timeOut);
     zongji.stop();
 }
 

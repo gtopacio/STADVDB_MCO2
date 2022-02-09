@@ -4,28 +4,19 @@
 */
 
 const express = require('express');
-const db = require('../lib/database/localDatabase');
 const app = express();
+const hbs = require('hbs');
+const routes = require('./routes.js');
+
 require('dotenv').config();
+app.set('view engine', 'hbs');
 const PORT = process.env.COORDINATOR_PORT || 8000;
 let server;
 
 function start(){
     app.use(express.urlencoded({extended: true}));
     app.use(express.json());
-    app.get("/ping", (req, res) => {
-        res.send("success");
-    });
-    app.post("/query", async(req, res) => {
-        try{
-            let results = await db.executeTransaction(req.body);
-            res.send(results);
-        }
-        catch(e){
-            console.error(e);
-            res.send({e});
-        }
-    });
+    app.use('/', routes);
     server = require('http').createServer(app);
     server.listen(PORT, () => console.log(`http://localhost:${PORT}`));
 }
