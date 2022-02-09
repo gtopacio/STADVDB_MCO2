@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "central": "node ./lib/starters/central.js",
     "l1980": "node ./lib/starters/l1980.js",
-    "ge1980": "node ./lib/starters/ge1980.js"
+    "ge1980": "node ./lib/starters/ge1980.js",
+    "coordinator": "node coordinatorRunner"
   },
   "repository": {
     "type": "git",

@@ -23,14 +23,15 @@ const controller = {
     console.log("Queries2: ");
     console.log(queries2);
 
-    try{
-      let results = await db.executeTransaction(req.body);
-      res.send(results);
-    }
-    catch(e){
-        console.error(e);
-        res.send({e});
-    }
+    // BACKEND CODE
+    // try{
+    //   let results = await db.executeTransaction(req.body);
+    //   res.send(results);
+    // }
+    // catch(e){
+    //     console.error(e);
+    //     res.send({e});
+    // }
 
     //const { queries } = queries1;
     //let results = await db.executeTransaction(queries);
