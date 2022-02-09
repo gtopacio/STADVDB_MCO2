@@ -43,10 +43,10 @@ const controller = {
     try {
       let ping = await db.ping();
       console.log(ping);
-      res.send("LOCAL IS ALIVE")
+      res.send(true)
     } catch(e) {
       console.log("DOWN");
-      res.send("LOCAL IS DOWN");
+      res.send(false);
     }
   }
 };

@@ -1,0 +1,7 @@
+user
+12345
+cd apps
+cd STADVDB_MCO2
+
+git pull origin main
+npm run coordinator
