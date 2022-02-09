@@ -1,6 +1,6 @@
 const express = require ('express');
 const controller = require ('./controllers/controller.js');
-const checkCentral = require('./middlewares/checnCentral.js');
+const checkCentral = require('./middlewares/checkCentral.js');
 const app = express();
 app.set('views', __dirname+'/views');
 
