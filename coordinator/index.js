@@ -4,28 +4,39 @@
 */
 
 const express = require('express');
-const db = require('../lib/db.js');
-const generateDatabaseDetails = require('../lib/generateDatabaseDetails');
+const db = require('../lib/database/localDatabase');
 const app = express();
 require('dotenv').config();
-
 const PORT = process.env.COORDINATOR_PORT || 8000;
-const nodeName = process.env.NODE_NAME;
-const databaseDetails = generateDatabaseDetails(nodeName);
+let server;
 
-app.use(express.urlencoded({extended: true}));
-app.use(express.json());
+function start(){
+    app.use(express.urlencoded({extended: true}));
+    app.use(express.json());
+    app.get("/ping", (req, res) => {
+        res.send("success");
+    });
+    app.post("/query", async(req, res) => {
+        try{
+            let results = await db.executeTransaction(req.body);
+            res.send(results);
+        }
+        catch(e){
+            console.error(e);
+            res.send({e});
+        }
+    });
+    server = require('http').createServer(app);
+    server.listen(PORT, () => console.log(`http://localhost:${PORT}`));
+}
 
-app.post("/query", async(req, res) => {
+function stop(){
     try{
-        let pool = db.createPool(databaseDetails);
-        let results = await db.executeTransaction(pool, req.body);
-        res.send(results);
+        server.close();
     }
     catch(e){
         console.error(e);
-        res.send({e});
     }
-});
+}
 
-app.listen(PORT, () => console.log(`http://localhost:${PORT}`));
+module.exports = { start, stop };

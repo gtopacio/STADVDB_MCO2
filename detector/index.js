@@ -8,10 +8,7 @@ const kafkaProducer = require('../lib/kafka/producer');
 const formulateChange = require('../lib/formulateChange');
 
 require('dotenv').config();
-const origin = process.env.NODE_NAME;
-const centralTopic = process.env.CENTRAL_CHANGE_TOPIC_NAME;
-const l1980Topic = process.env.L1980_CHANGE_TOPIC_NAME;
-const ge1980Topic = process.env.GE1980_CHANGE_TOPIC_NAME;
+const changeTopicName = process.env.CHANGE_TOPIC_NAME;
 
 let zongji = new ZongJi({ 
     user: process.env.REPLICATOR_USERNAME,
@@ -20,30 +17,25 @@ let zongji = new ZongJi({
  });
 
 zongji.on('binlog', async function(evt) {
-    let changeData = formulateChange({evt, origin});
-    if(origin === "central"){
-        kafkaProducer.publishChange({topic: centralTopic, value: JSON.stringify(changeData)});
-        return;
-    }
-    if(origin === "l1980"){
-        kafkaProducer.publishChange({topic: l1980Topic, value: JSON.stringify(changeData)});
-        return;
-    }
-    if(origin === "ge1980"){
-        kafkaProducer.publishChange({topic: ge1980Topic, value: JSON.stringify(changeData)});
-        return;
-    }
+    let changeData = formulateChange({evt});
+    console.log("Bin Log", changeData);
+    kafkaProducer.publishChange({topic: changeTopicName, value: JSON.stringify(changeData)});
 });
 
 function start(){
-    zongji.start({
-        includeEvents: ['tablemap','writerows', 'updaterows', 'deleterows']
-      });
+    try{
+        zongji.start({
+            includeEvents: ['tablemap','writerows', 'updaterows', 'deleterows'],
+            startAtEnd: true
+        });
+    }
+    catch(e){
+        console.error(e);
+    }
 }
 
 function stop(){
     zongji.stop();
-    queue.terminate();
 }
 
 module.exports = { start, stop }

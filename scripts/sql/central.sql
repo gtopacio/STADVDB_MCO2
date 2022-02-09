@@ -1,0 +1,7 @@
+CREATE USER 'backend'@'%' IDENTIFIED BY '12345';
+CREATE USER 'replicator'@'%' IDENTIFIED BY '12345';
+
+GRANT ALL PRIVILEGES ON *.* TO 'backend'@'%';
+GRANT ALL PRIVILEGES ON *.* TO 'replicator'@'%';
+
+FLUSH PRIVILEGES;

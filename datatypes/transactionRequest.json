@@ -1,4 +1,0 @@
-{
-    "isolationLevel": ["READ UNCOMMITTED", "READ COMMITTED", "REPEATABLE READ", "SERIALIZABLE", "(optional) default is repeatable read"],
-    "queries": ["Array of SQL Statements"]
-}
