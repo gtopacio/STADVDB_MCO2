@@ -19,8 +19,8 @@ const controller = {
     // for (i = 0; i < queries2.length; i++)
     //   queries2[i] = queries2[i].trim();
 
-     console.log("Queries1: ");
-    // console.log(queries1);
+    console.log("Queries1: ");
+    console.log(queries1);
 
     // console.log("Queries2: ");
     // console.log(queries2);
@@ -28,6 +28,7 @@ const controller = {
     // BACKEND CODE
     try{
       let results = await db.executeTransaction({queries: queries1});
+      console.log(results);
       res.send(results);
     }
     catch(e){
