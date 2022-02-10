@@ -49,7 +49,11 @@ const controller = {
     } catch(e) {
       console.error(e);
       console.log(process.env.NODE_NAME + " MYSQL DOWN");
-      res.send(e);
+      let ping = await axios.get("http://" + process.env.L1980_HOSTNAME + ":" + process.env.COORDINATOR_PORT + "/ping");
+      if (ping.data) {
+        console.log("REDIRECT TO L1980 ping");
+        res.redirect(307, "http://" + process.env.L1980_HOSTNAME + ":" + process.env.COORDINATOR_PORT + "/ping");
+      }
     }
   }
 };

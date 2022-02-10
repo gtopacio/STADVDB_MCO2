@@ -14,7 +14,7 @@ async function checkCentral (req, res, next) {
     try {
       ping = await axios.get("http://" + process.env.CENTRAL_HOSTNAME + ":" + process.env.COORDINATOR_PORT + "/ping");
       if (ping.data) {
-        console.log("REDIRECT");
+        console.log("REDIRECT TO CENTRAL ping");
         res.redirect(307, "http://" + process.env.CENTRAL_HOSTNAME + ":" + process.env.COORDINATOR_PORT + "/ping");
       }
     } catch(e) {
