@@ -8,7 +8,8 @@
     "central": "node ./lib/starters/central.js",
     "l1980": "node ./lib/starters/l1980.js",
     "ge1980": "node ./lib/starters/ge1980.js",
-    "coordinator": "node coordinatorRunner"
+    "coordinator": "node coordinatorRunner",
+    "kafka-tester": "node ./testers/kafka-tester.js"
   },
   "repository": {
     "type": "git",
