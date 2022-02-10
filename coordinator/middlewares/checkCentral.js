@@ -7,16 +7,18 @@ async function checkCentral (req, res, next) {
     next();
   }
   else {
-    console.log("CENTRAL: " + (await axios.get("http://" + process.env.CENTRAL_HOSTNAME + ":" + process.env.COORDINATOR_PORT + "/ping")));
-    return;
-    /*
+    //console.log("CENTRAL: " + (await axios.get("http://" + process.env.CENTRAL_HOSTNAME + ":" + process.env.COORDINATOR_PORT + "/ping")));
+    //return;
+
     if (await axios.get("http://" + process.env.CENTRAL_HOSTNAME + ":" + process.env.COORDINATOR_PORT + "/ping")) {
+      console.log("REDIRECT");
       res.redirect("http://" + process.env.CENTRAL_HOSTNAME + ":" + process.env.COORDINATOR_PORT + "/ping", 307);
     }
     else {
+      console.log("NEXT");
       next();
     }
-    */
+
   }
 }
 
