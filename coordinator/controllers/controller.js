@@ -42,17 +42,18 @@ const controller = {
 
   ping: async function(req, res){
     try {
-      let ping = await db.ping();
-      let msg = process.env.NODE_NAME + " ping: " + ping;
-      console.log(msg);
-      res.send(msg)
+      let dbPing = await db.ping();
+      console.log("[controller(" + process.env.NODE_NAME + ")] ping");
+      res.send(dbPing);
     } catch(e) {
       console.error(e);
-      console.log(process.env.NODE_NAME + " MYSQL DOWN");
-      let ping = await axios.get("http://" + process.env.L1980_HOSTNAME + ":" + process.env.COORDINATOR_PORT + "/ping");
-      if (ping.data) {
-        console.log("REDIRECT TO L1980 ping");
-        res.redirect(307, "http://" + process.env.L1980_HOSTNAME + ":" + process.env.COORDINATOR_PORT + "/ping");
+      console.log("[controller(" + process.env.NODE_NAME + ")] MYSQL down");
+      if (process.env.NODE_NAME == "CENTRAL") {
+        let l1980PingURL = "http://" + process.env.L1980_HOSTNAME + ":" + process.env.COORDINATOR_PORT + "/ping"
+        if (ping.data) {
+          console.log("[controller(" + process.env.NODE_NAME + ")] Redirecting to L1980 ping");
+          res.redirect(307, l1980PingURL);
+        }
       }
     }
   }

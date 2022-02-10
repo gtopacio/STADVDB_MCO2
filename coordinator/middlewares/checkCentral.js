@@ -4,21 +4,19 @@ require('dotenv').config();
 
 async function checkCentral (req, res, next) {
   if (process.env.NODE_NAME == "CENTRAL") {
-    console.log("THIS IS CENTRAL");
+    console.log("[checkCentral] This is CENTRAL");
     next();
   }
   else {
-    //console.log("CENTRAL: " + (await axios.get("http://" + process.env.CENTRAL_HOSTNAME + ":" + process.env.COORDINATOR_PORT + "/ping")));
-    //return;
-    let ping;
     try {
-      ping = await axios.get("http://" + process.env.CENTRAL_HOSTNAME + ":" + process.env.COORDINATOR_PORT + "/ping");
+      let centralPingURL = "http://" + process.env.CENTRAL_HOSTNAME + ":" + process.env.COORDINATOR_PORT + "/ping"
+      let ping = await axios.get(centralPingURL);
       if (ping.data) {
-        console.log("REDIRECT TO CENTRAL ping");
-        res.redirect(307, "http://" + process.env.CENTRAL_HOSTNAME + ":" + process.env.COORDINATOR_PORT + "/ping");
+        console.log("[checkCentral(" + process.env.NODE_NAME + ")] Redirecting to CENTRAL Ping");
+        res.redirect(307, centralPingURL);
       }
     } catch(e) {
-      console.log("CENTRAL DOWN");
+      console.log("[checkCentral(" + process.env.NODE_NAME + ")] CENTRAL down");
       next();
     }
   }
