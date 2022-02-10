@@ -46,7 +46,7 @@ const controller = {
       console.log(msg);
       res.send(msg)
     } catch(e) {
-        let msg = process.env.NODE_NAME + " error: " + e;
+      let msg = process.env.NODE_NAME + " error: " + e;
       res.send(msg);
     }
   }
