@@ -25,8 +25,8 @@ const controller = {
 
     // BACKEND CODE
     try{
-      let results = await db.executeTransaction(req.body);
-      res.send(results);
+      //let results = await db.executeTransaction(req.body);
+      res.send(req.body);
     }
     catch(e){
         console.error(e);

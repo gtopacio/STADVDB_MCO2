@@ -3,5 +3,9 @@ user
 cd apps
 cd STADVDB_MCO2
 
+ifconfig
+
+sudo nano .env
+
 git pull origin main
 npm run coordinator
