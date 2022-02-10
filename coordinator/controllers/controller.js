@@ -49,7 +49,7 @@ const controller = {
     } catch(e) {
       console.error(e);
       console.log(process.env.NODE_NAME + " MYSQL DOWN");
-      res.send(msg);
+      res.send(e);
     }
   }
 };
