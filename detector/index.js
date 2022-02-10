@@ -4,10 +4,10 @@
 */
 
 const ZongJi = require('@vlasky/zongji');
-// const kafkaProducer = require('../lib/kafka/producer');
+const kafkaProducer = require('../lib/kafka/producer');
 const formulateChange = require('../lib/formulateChange');
 
-const handler = require('../lib/handler/centralHandler');
+// const handler = require('../lib/handler/centralHandler');
 
 require('dotenv').config();
 const changeTopicName = process.env.CHANGE_TOPIC_NAME;
@@ -19,14 +19,11 @@ function binlogHandler(evt) {
     let changeData = formulateChange({evt});
     if(!changeData)
         return;
-
-    let stringified = JSON.stringify(changeData);
-    let parsed = JSON.parse(stringified);
     // console.log("Bin Log", stringified);
     // console.log(parsed);
     // console.log(new Date(parsed.rows[0].lastUpdated));
-    handler(parsed);
-    // kafkaProducer.publishChange({topic: changeTopicName, value: JSON.stringify(changeData)});
+    // handler(parsed);
+    kafkaProducer.publishChange({topic: changeTopicName, value: JSON.stringify(changeData)});
 }
 
 function retryConnection(e){
