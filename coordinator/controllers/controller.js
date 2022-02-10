@@ -1,4 +1,5 @@
 const db = require('../../lib/database/localDatabase');
+const axios = require('axios');
 require('dotenv').config();
 
 const controller = {
@@ -30,6 +31,7 @@ const controller = {
       res.send(req.body);
     }
     catch(e){
+      console.log("ERROR");
       console.error(e);
       res.send({e});
     }
