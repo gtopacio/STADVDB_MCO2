@@ -43,10 +43,10 @@ const controller = {
     try {
       let ping = await db.ping();
       console.log(ping);
-      res.send(true)
+      res.send(ping)
     } catch(e) {
-      console.log("DOWN");
-      res.send(false);
+      console.log(e);
+      res.send(ping);
     }
   }
 };
