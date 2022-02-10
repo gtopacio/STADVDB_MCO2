@@ -9,8 +9,9 @@ async function checkCentral (req, res, next) {
   else {
     //console.log("CENTRAL: " + (await axios.get("http://" + process.env.CENTRAL_HOSTNAME + ":" + process.env.COORDINATOR_PORT + "/ping")));
     //return;
+    let ping;
     try {
-      let ping = await axios.get("http://" + process.env.CENTRAL_HOSTNAME + ":" + process.env.COORDINATOR_PORT + "/ping");
+      ping = await axios.get("http://" + process.env.CENTRAL_HOSTNAME + ":" + process.env.COORDINATOR_PORT + "/ping");
     } catch(e) {
       console.log("CENTRAL DOWN");
     }
