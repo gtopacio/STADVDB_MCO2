@@ -50,6 +50,7 @@ const controller = {
       console.log("[controller(" + process.env.NODE_NAME + ")] MYSQL down");
       if (process.env.NODE_NAME == "CENTRAL") {
         let l1980PingURL = "http://" + process.env.L1980_HOSTNAME + ":" + process.env.COORDINATOR_PORT + "/ping"
+        let ping = await axios.get(l1980PingURL);
         if (ping.data) {
           console.log("[controller(" + process.env.NODE_NAME + ")] Redirecting to L1980 ping");
           res.redirect(307, l1980PingURL);
