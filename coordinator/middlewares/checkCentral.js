@@ -12,15 +12,12 @@ async function checkCentral (req, res, next) {
     let ping;
     try {
       ping = await axios.get("http://" + process.env.CENTRAL_HOSTNAME + ":" + process.env.COORDINATOR_PORT + "/ping");
+      if (ping.data) {
+        console.log("REDIRECT");
+        res.redirect(307, "http://" + process.env.CENTRAL_HOSTNAME + ":" + process.env.COORDINATOR_PORT + "/ping");
+      }
     } catch(e) {
       console.log("CENTRAL DOWN");
-    }
-
-    if (ping.data) {
-      console.log("REDIRECT");
-      res.redirect(307, "http://" + process.env.CENTRAL_HOSTNAME + ":" + process.env.COORDINATOR_PORT + "/ping");
-    }
-    else {
       console.log("NEXT");
       next();
     }
