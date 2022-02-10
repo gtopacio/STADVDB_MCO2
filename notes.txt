@@ -13,3 +13,6 @@ npm run coordinator
 poweroff
 
 ssh user@ip
+
+sudo service mysql stop
+sudo service mysql start
