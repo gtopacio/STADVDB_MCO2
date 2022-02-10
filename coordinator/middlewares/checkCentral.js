@@ -14,7 +14,6 @@ async function checkCentral (req, res, next) {
     } catch(e) {
       console.log("CENTRAL DOWN");
     }
-    return;
 
     if (typeof ping == "object") {
       console.log("REDIRECT");
