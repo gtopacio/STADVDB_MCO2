@@ -3,5 +3,16 @@ user
 cd apps
 cd STADVDB_MCO2
 
+ifconfig
+
+sudo nano .env
+
 git pull origin main
 npm run coordinator
+
+poweroff
+
+ssh user@ip
+
+sudo service mysql stop
+sudo service mysql start
