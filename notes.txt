@@ -9,3 +9,7 @@ sudo nano .env
 
 git pull origin main
 npm run coordinator
+
+poweroff
+
+ssh user@ip
