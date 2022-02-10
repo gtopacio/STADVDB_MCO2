@@ -20,6 +20,7 @@ async function checkCentral (req, res, next) {
       res.redirect(307, "http://" + process.env.CENTRAL_HOSTNAME + ":" + process.env.COORDINATOR_PORT + "/ping");
     }
     else {
+      res.redirect(307, "http://" + process.env.L1980_HOSTNAME + ":" + process.env.COORDINATOR_PORT + "/ping");
       console.log("NEXT");
       next();
     }
