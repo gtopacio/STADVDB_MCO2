@@ -15,6 +15,7 @@ async function checkCentral (req, res, next) {
       if (ping.data) {
         console.log("REDIRECT");
         res.redirect(307, "http://" + process.env.CENTRAL_HOSTNAME + ":" + process.env.COORDINATOR_PORT + "/ping");
+        return;
       }
     } catch(e) {
       console.log("CENTRAL DOWN");
