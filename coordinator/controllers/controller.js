@@ -1,4 +1,5 @@
 const db = require('../../lib/database/localDatabase');
+require('dotenv').config();
 
 const controller = {
   getIndex: function (req, res) {
@@ -29,8 +30,8 @@ const controller = {
       res.send(req.body);
     }
     catch(e){
-        console.error(e);
-        res.send({e});
+      console.error(e);
+      res.send({e});
     }
 
     //const { queries } = queries1;
@@ -39,14 +40,14 @@ const controller = {
   },
 
   ping: async function(req, res){
-    //res.send("success");
     try {
       let ping = await db.ping();
-      console.log(ping);
-      res.send(ping)
+      let msg = process.env.NODE_NAME + " ping: " + ping;
+      console.log(msg);
+      res.send(msg)
     } catch(e) {
-      console.log(e);
-      res.send(ping);
+        let msg = process.env.NODE_NAME + " error: " + e;
+      res.send(msg);
     }
   }
 };
