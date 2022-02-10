@@ -47,8 +47,8 @@ const controller = {
       console.log(msg);
       res.send(msg)
     } catch(e) {
-      let msg = process.env.NODE_NAME + " error: " + e;
-      console.log("MYSQL DOWN");
+      console.error(e);
+      console.log(process.env.NODE_NAME + " MYSQL DOWN");
       res.send(msg);
     }
   }
