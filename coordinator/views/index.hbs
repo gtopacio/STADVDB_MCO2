@@ -23,8 +23,8 @@
           let url = $(this).attr('action');
           let textQuery = $('#query1').text();
           let queries = textQuery.split(';');
-          for (i = 0; i < queries1.length; i++){
-            queries1[i] = queries1[i].trim();
+          for (i = 0; i < queries.length; i++){
+            queries[i] = queries[i].trim();
             if(queries[i] === "")
               delete queries[i];
           }
