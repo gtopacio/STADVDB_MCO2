@@ -13,9 +13,9 @@ const centralPingURL = `http://${CENTRAL_HOSTNAME}:${COORDINATOR_PORT}/ping`;
 const l1980PingURL = `http://${L1980_HOSTNAME}:${COORDINATOR_PORT}/ping`;
 const ge1980PingURL = `http://${GE1980_HOSTNAME}:${COORDINATOR_PORT}/ping`;
 
-let axiosInstance = axios.create({
-  timeout: 3000
-});
+// let axiosInstance = axios.create({
+//   timeout: 5000
+// });
 
 async function checkCentral (req, res, next) {
   if (process.env.NODE_NAME == "CENTRAL") {
@@ -24,13 +24,13 @@ async function checkCentral (req, res, next) {
   }
 
   try{
-    let { data } = await axiosInstance.get(centralPingURL, { timeout});
+    let { data } = await axios.get(centralPingURL);
     if(data){
       res.redirect(307, centralQueryURL);
       return;
     }
     try{
-      let { data } = await axiosInstance.get(l1980PingURL);
+      let { data } = await axios.get(l1980PingURL);
       if(data){
         res.redirect(307, l1980QueryURL);
         return;
@@ -48,7 +48,7 @@ async function checkCentral (req, res, next) {
   }
   catch(e){
     try{
-      let { data } = await axiosInstance.get(l1980PingURL);
+      let { data } = await axios.get(l1980PingURL);
       if(data){
         res.redirect(307, l1980QueryURL);
         return;
