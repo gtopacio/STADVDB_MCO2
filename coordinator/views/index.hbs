@@ -20,7 +20,7 @@
     $(document).ready(function () {
       $("#formSubmit").submit(async function(event) {
           event.preventDefault();
-          let url = $form.attr('action');
+          let url = $(this).attr('action');
           let textQuery = $('#query1').text();
           let queries = textQuery.split(';');
           for (i = 0; i < queries1.length; i++){
