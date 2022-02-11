@@ -18,52 +18,19 @@ const ge1980PingURL = `http://${GE1980_HOSTNAME}:${COORDINATOR_PORT}/ping`;
 // });
 
 async function checkCentral (req, res, next) {
+
   if (process.env.NODE_NAME == "CENTRAL") {
     next();
     return;
   }
 
-  try{
-    let { data } = await axios.get(centralPingURL);
-    if(data){
-      res.redirect(307, centralQueryURL);
-      return;
-    }
-    try{
-      let { data } = await axios.get(l1980PingURL);
-      if(data){
-        res.redirect(307, l1980QueryURL);
-        return;
-      }
-
-      res.send({
-        e: "Two nodes are down"
-      });
-    }
-    catch(e){
-      res.send({
-        e: "Two nodes are down"
-      });
-    }
+  let { data } = await axios.get(centralPingURL);
+  if(data){
+    res.redirect(307, centralQueryURL);
+    return;
   }
-  catch(e){
-    try{
-      let { data } = await axios.get(l1980PingURL);
-      if(data){
-        res.redirect(307, l1980QueryURL);
-        return;
-      }
 
-      res.send({
-        e: "Two nodes are down"
-      });
-    }
-    catch(e){
-      res.send({
-        e: "Two nodes are down"
-      });
-    }
-  }
+  next();
 }
 
 module.exports = checkCentral;
