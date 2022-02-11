@@ -26,16 +26,15 @@ const controller = {
     // console.log(queries2);
 
     // BACKEND CODE
-    console.log(req.body)
-    // try{
-    //   let results = await db.executeTransaction(req.body);
-    //   console.log(results);
-    //   res.send(results);
-    // }
-    // catch(e){
-    //   console.error(e);
-    //   res.send({e});
-    // }
+    try{
+      let results = await db.executeTransaction(req.body);
+      console.log(results);
+      res.send(results);
+    }
+    catch(e){
+      console.error(e);
+      res.send({e});
+    }
 
     //const { queries } = queries1;
     //let results = await db.executeTransaction(queries);
