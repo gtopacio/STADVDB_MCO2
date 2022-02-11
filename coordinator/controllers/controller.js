@@ -1,5 +1,4 @@
 let db = require('../../lib/database/localDatabase');;
-const axios = require('axios');
 require('dotenv').config();
 
 const NODE_NAME = process.env.NODE_NAME;
@@ -47,22 +46,34 @@ const controller = {
   },
 
   ping: async function(req, res){
-    try {
-      let dbPing = await db.ping();
-      console.log("[controller(" + process.env.NODE_NAME + ")] ping");
-      res.send(dbPing);
-    } catch(e) {
-      console.error(e);
-      console.log("[controller(" + process.env.NODE_NAME + ")] MYSQL down");
-      if (process.env.NODE_NAME == "CENTRAL") {
-        let l1980PingURL = "http://" + process.env.L1980_HOSTNAME + ":" + process.env.COORDINATOR_PORT + "/ping"
-        let ping = await axios.get(l1980PingURL);
-        if (ping.data) {
-          console.log("[controller(" + process.env.NODE_NAME + ")] Redirecting to L1980 ping");
-          res.redirect(307, l1980PingURL);
-        }
-      }
+
+    try{
+      await db.ping();
+      res.send(true);
     }
+    catch(e){
+      res.send(false);
+    }
+
+
+
+
+    // try {
+    //   let dbPing = await db.ping();
+    //   console.log("[controller(" + process.env.NODE_NAME + ")] ping");
+    //   res.send(dbPing);
+    // } catch(e) {
+    //   console.error(e);
+    //   console.log("[controller(" + process.env.NODE_NAME + ")] MYSQL down");
+    //   if (process.env.NODE_NAME == "CENTRAL") {
+    //     let l1980PingURL = "http://" + process.env.L1980_HOSTNAME + ":" + process.env.COORDINATOR_PORT + "/ping"
+    //     let ping = await axios.get(l1980PingURL);
+    //     if (ping.data) {
+    //       console.log("[controller(" + process.env.NODE_NAME + ")] Redirecting to L1980 ping");
+    //       res.redirect(307, l1980PingURL);
+    //     }
+    //   }
+    // }
   }
 };
 
