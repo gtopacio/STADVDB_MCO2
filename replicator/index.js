@@ -14,7 +14,7 @@ async function start(){
 
 async function subscribe(topic){
     try{
-        await consumer.subscribe({topic, fromBeginning: true});
+        await consumer.subscribe({topic});
     }
     catch(e){
         console.error(e);
