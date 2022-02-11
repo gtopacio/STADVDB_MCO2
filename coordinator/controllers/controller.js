@@ -1,6 +1,11 @@
-const db = require('../../lib/database/localDatabase');
+let db = require('../../lib/database/localDatabase');;
 const axios = require('axios');
 require('dotenv').config();
+
+const NODE_NAME = process.env.NODE_NAME;
+if(NODE_NAME !== "CENTRAL"){
+  db = require('../../lib/database/partitionedDatabase');
+}
 
 const controller = {
   getIndex: function (req, res) {
