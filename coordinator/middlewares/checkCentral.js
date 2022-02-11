@@ -24,13 +24,17 @@ async function checkCentral (req, res, next) {
     return;
   }
 
-  let { data } = await axios.get(centralPingURL);
-  if(data){
-    res.redirect(307, centralQueryURL);
-    return;
+  try{
+    let { data } = await axios.get(centralPingURL);
+    if(data){
+      res.redirect(307, centralQueryURL);
+      return;
+    }
+    next();
   }
-
-  next();
+  catch(e){
+    next();
+  }
 }
 
 module.exports = checkCentral;
