@@ -21,7 +21,7 @@
       $("#formSubmit").submit(async function(event) {
           event.preventDefault();
           let url = $(this).attr('action');
-          let textQuery = $('#query1').text();
+          let textQuery = $('#query1').val();
           let queries = textQuery.split(';');
           console.log(textQuery, queries);
           for (i = 0; i < queries.length; i++){
