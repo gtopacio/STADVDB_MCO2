@@ -26,7 +26,7 @@
           for (i = 0; i < queries.length; i++){
             queries[i] = queries[i].trim();
             if(queries[i] === "")
-              queries = queries.splice(i,i);
+              queries = queries.splice(0,i).concat(queries.splice(i));
           }
 
           try{
