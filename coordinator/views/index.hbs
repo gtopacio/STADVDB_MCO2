@@ -3,12 +3,13 @@
 <head>
   <title>Index</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
   <h1>Hehe</h1>
   <form id="formSubmit" method="post" action="/query">
-    <textarea name="query1" placeholder="query1, query1"></textarea><br>
-    <textarea name="query2" placeholder="query2,query2"></textarea><br>
+    <textarea id="query1" name="query1" placeholder="query1, query1"></textarea><br>
+    <textarea id="query2" name="query2" placeholder="query2,query2"></textarea><br>
     <input type="submit" value="Submit">
   </form>
 
@@ -17,17 +18,26 @@
 
   <script>
     $(document).ready(function () {
-      $("#formSubmit").submit(function(event) {
-        event.preventDefault();
-        var $form = $(this);
-        var url = $form.attr('action');
-        var posting = $.post(url, $form.serialize());
-        posting.done(function(msg) {
-          alert(msg);
-        });
-        posting.fail(function() {
-          alert("Error in transaction");
-        });
+      $("#formSubmit").submit(async function(event) {
+          event.preventDefault();
+          let url = $(this).attr('action');
+          let textQuery = $('#query1').val();
+          let queries = textQuery.split(';');
+          for (i = 0; i < queries.length; i++){
+            queries[i] = queries[i].trim();
+            if(queries[i] === "")
+              queries = queries.splice(0,i).concat(queries.splice(i));
+          }
+
+          try{
+            let { data } = await axios.post(url, {queries});
+            console.log(data);
+            alert(data);
+          }
+          catch(e){
+            console.error(e);
+            alert(e);
+          }
       });
 
       $("button").click(function(){
@@ -38,4 +48,14 @@
     });
   </script>
 </body>
+        {{!-- var $form = $(this);
+        var url = $form.attr('action');
+        var posting = $.post(url, $form.serialize());
+        posting.done(function(msg) {
+          alert(msg);
+        });
+        posting.fail(function() {
+          alert("Error in transaction");
+        }); --}}
+
 </html>
