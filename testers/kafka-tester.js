@@ -1,9 +1,16 @@
+const async = require('hbs/lib/async');
 const { Kafka } = require('kafkajs');
 require('dotenv').config();
 
 const kafka = new Kafka({
     clientId: process.env.NODE_NAME,
-    brokers: [`${process.env.KAFKA_BROKER_1}:9092`]
+    brokers: [`${process.env.KAFKA_BROKER_1}:9092`],
+    retry:{
+        restartOnFailure: async function (e){
+            console.error(e);
+            return true;
+        }
+    }
 });
 
 let consumer = kafka.consumer({ groupId: "test-id" });

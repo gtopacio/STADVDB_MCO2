@@ -6,7 +6,9 @@
 const kafka = require('../lib/kafka/connection');
 
 require('dotenv').config();
-const consumer = kafka.consumer({ groupId: process.env.NODE_NAME });
+const consumer = kafka.consumer({ 
+    groupId: process.env.NODE_NAME
+});
 
 async function start(){
     await consumer.connect();
