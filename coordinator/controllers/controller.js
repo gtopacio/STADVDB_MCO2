@@ -33,11 +33,11 @@ const controller = {
     try{
       let results = await db.executeTransaction(req.body);
       console.log(results);
-      res.send(results);
+      return res.send(results);
     }
     catch(e){
       console.error(e);
-      res.send({e});
+      return res.send({e});
     }
 
     //const { queries } = queries1;
