@@ -99,7 +99,7 @@
           }
 
           let results = await Promise.all(requests);
-          request = requests.map(({data}) => { return data.data });
+          results = results.map(({data}) => data);
           console.log(results);
           alert(results);
       });
