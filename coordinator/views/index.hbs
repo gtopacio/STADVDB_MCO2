@@ -4,31 +4,69 @@
   <title>Index</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 <body>
-  <h1>Hehe</h1>
-  <form id="formSubmit" method="post" action="/query">
-    <textarea id="query1" name="query1" placeholder="query1, query1"></textarea><br>
-    <textarea id="query2" name="query2" placeholder="query2,query2"></textarea><br>
-    <input type="submit" value="Submit">
-  </form>
+  <button class="tablink" onclick="openPage('singleTrans', this, '#3498db')" id="defaultOpen">Single Transaction</button>
+  <button class="tablink" onclick="openPage('multiTrans', this, '#2ecc71')">Multiple Transactions</button>
 
-  <button id="ping">PING</button>
+  <div id="singleTrans" class="tabcontent">
+    <button class="ping">PING</button><br>
+    <form id="formSingle" method="post" action="/query">
+      <input type="submit" value="Submit">
+      <div style="display:flex">
+        <textarea id="querySingle" name="querySingle"></textarea><br>
+        <select id="nodeSingle" name="nodeSingle">
+          <option value="central">Central</option>
+          <option value="l1980">L1980</option>
+          <option value="ge1980">GE1980</option>
+        </select>
+        <select id="isoLevelSingle0" name="isoLevelSingle0">
+          <option value="readuncommitted">Read Uncommitted</option>
+          <option value="readcommitted">Read Committed</option>
+          <option value="repeatableread">Repeatable Read</option>
+          <option value="serializable">Serializable</option>
+        </select>
+      </div>
+    </form>
+  </div>
 
+  <div id="multiTrans" class="tabcontent">
+    <button class="ping">PING</button>
+    <button id="addTransaction">+</button>
+    <button id="subTransaction">-</button>
+    <form id="formMulti" method="post" action="/query">
+      <input type="submit" value="Submit">
+      <div id="transMulti0" style="display:flex">
+        <textarea id="queryMulti0" name="queryMulti0"></textarea><br>
+        <select id="nodeMulti0" name="nodeMulti0">
+          <option value="central">Central</option>
+          <option value="l1980">L1980</option>
+          <option value="ge1980">GE1980</option>
+        </select>
+        <select id="isoLevelMulti0" name="isoLevelMulti0">
+          <option value="readuncommitted">Read Uncommitted</option>
+          <option value="readcommitted">Read Committed</option>
+          <option value="repeatableread">Repeatable Read</option>
+          <option value="serializable">Serializable</option>
+        </select>
+      </div>
+    </form>
+  </div>
 
   <script>
     $(document).ready(function () {
-      $("#formSubmit").submit(async function(event) {
+      $("#formSingle").submit(async function(event) {
           event.preventDefault();
           let url = $(this).attr('action');
-          let textQuery = $('#query1').val();
+          let textQuery = $('#querySingle').val();
+          let nodeQuery = $('#nodeSingle').val();
           let queries = textQuery.split(';');
           for (i = 0; i < queries.length; i++){
             queries[i] = queries[i].trim();
             if(queries[i] === "")
               queries = queries.splice(0,i).concat(queries.splice(i));
           }
-
           try{
             let { data } = await axios.post(url, {queries});
             console.log(data);
@@ -40,12 +78,80 @@
           }
       });
 
-      $("button").click(function(){
+      $("#formMulti").submit(async function(event) {
+          event.preventDefault();
+          let url = $(this).attr('action');
+          let queryCollection = []
+          let nodeCollection = []
+          for (j = 0; j < cnt; j++) {
+            let textQuery = $('#queryMulti' + j).val();
+            let nodeQuery = $('#nodeMulti' + j).val();
+            let queries = textQuery.split(';');
+            for (i = 0; i < queries.length; i++){
+              queries[i] = queries[i].trim();
+              if(queries[i] === "")
+                queries = queries.splice(0,i).concat(queries.splice(i));
+            }
+            queryCollection.push(queries);
+            nodeCollection.push(nodeQuery);
+          }
+          console.log(queryCollection);
+          console.log(nodeCollection);
+          try{
+            let { data } = await axios.post(url, {queryCollection});
+            console.log(data);
+            alert(data);
+          }
+          catch(e){
+            console.error(e);
+            alert(e);
+          }
+
+      });
+
+      $(".ping").click(function(){
         $.get("/ping", function(data, status){
           alert(data);
         });
       });
+
+      var cnt = 1;
+      $("#addTransaction").click(function() {
+        var newTrans = '<div id="transMulti' + cnt + '" style="display:flex"><textarea id="queryMulti' + cnt + '" name="queryMulti' + cnt + '"></textarea><br><select id="nodeMulti' + cnt + '" name="nodeMulti' + cnt + '"><option value="central">Central</option><option value="l1980">L1980</option><option value="ge1980">GE1980</option></select><select id="isoLevelMulti' + cnt + '" name="isoLevelMulti' + cnt +'"><option value="readuncommitted">Read Uncommitted</option><option value="readcommitted">Read Committed</option><option value="repeatableread">Repeatable Read</option><option value="serializable">Serializable</option></select></div>';
+        $('#multiTrans').append(newTrans);
+        cnt++;
+      });
+
+      $("#subTransaction").click(function() {
+        $("#transMulti" + (cnt - 1)).remove();
+        cnt--;
+      });
+
     });
+
+    function openPage(pageName, elmnt, color) {
+      // Hide all elements with class="tabcontent" by default */
+      var i, tabcontent, tablinks;
+      tabcontent = document.getElementsByClassName("tabcontent");
+      for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+      }
+
+      // Remove the background color of all tablinks/buttons
+      tablinks = document.getElementsByClassName("tablink");
+      for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].style.backgroundColor = "";
+      }
+
+      // Show the specific tab content
+      document.getElementById(pageName).style.display = "block";
+
+      // Add the specific color to the button used to open the tab content
+      elmnt.style.backgroundColor = color;
+    }
+
+    // Get the element with id="defaultOpen" and click on it
+    document.getElementById("defaultOpen").click();
   </script>
 </body>
         {{!-- var $form = $(this);

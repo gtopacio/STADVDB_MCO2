@@ -30,6 +30,19 @@ const controller = {
     // console.log(queries2);
 
     // BACKEND CODE
+
+
+
+
+    // NODE SQL PARSER
+    // FRONT END WITH TABS
+    // ONE TAB ONE INPUT ONLY
+    // SECOND TAB DYNAMIC INPUT ONE SUBMIT BUTTON
+    // PER TEXT AREA CHOOSE NODE TO SEND
+
+    // CHECK ROUTING
+
+
     try{
       let results = await db.executeTransaction(req.body);
       console.log(results);
