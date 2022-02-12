@@ -112,15 +112,15 @@
 
       let cnt = 1;
       $("#addTransaction").click(function() {
-        let newTrans = `<div id="transMulti' + cnt + '" style="display:flex">
-                            <textarea id="queryMulti' + cnt + '" name="queryMulti' + cnt + '"></textarea>
+        let newTrans = `<div id="transMulti${cnt}" style="display:flex">
+                            <textarea id="queryMulti${cnt}" name="queryMulti${cnt}"></textarea>
                             <br>
-                            <select id="nodeMulti' + cnt + '" name="nodeMulti' + cnt + '">
+                            <select id="nodeMulti${cnt}" name="nodeMulti${cnt}">
                               <option value="CENTRAL">Central</option>
                               <option value="L1980">L1980</option>
                               <option value="GE1980">GE1980</option>
                             </select>
-                            <select id="isoLevelMulti' + cnt + '" name="isoLevelMulti' + cnt +'">
+                            <select id="isoLevelMulti${cnt}" name="isoLevelMulti${cnt}">
                               <option value="READ UNCOMMITTED">Read Uncommitted</option>
                               <option value="READ COMMITTED">Read Committed</option>
                               <option value="REPEATABLE READ">Repeatable Read</option>
