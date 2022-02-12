@@ -94,6 +94,7 @@
                 queries = queries.splice(0,i).concat(queries.splice(i));
             }
             payload.queries = queries;
+            console.log(url, payload);
             requests.push(axios.post(url, payload));
           }
 
