@@ -11,6 +11,7 @@ const routes = require('./routes.js');
 require('dotenv').config();
 app.set('view engine', 'hbs');
 const PORT = process.env.COORDINATOR_PORT || 8000;
+const NODE_HOSTNAME = process.env.NODE_HOSTNAME;
 let server;
 
 function start(){
@@ -18,7 +19,7 @@ function start(){
     app.use(express.json());
     app.use('/', routes);
     server = require('http').createServer(app);
-    server.listen(PORT, () => console.log(`http://localhost:${PORT}`));
+    server.listen(PORT, () => console.log(`http://${NODE_HOSTNAME}:${PORT}`));
 }
 
 function stop(){
