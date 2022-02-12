@@ -8,7 +8,7 @@ app.set('views', __dirname+'/views');
 app.use(express.static(__dirname + '/public'));
 
 app.get('/', controller.getIndex);
-app.post('/query', checkCentral, checkSql, checkReadOnly, controller.query);
+app.post('/query', checkSql, checkReadOnly, checkCentral, controller.query);
 app.get("/ping", controller.ping);
 app.get("/urls", controller.urls)
 

@@ -10,6 +10,11 @@ async function checkCentral (req, res, next) {
 
   console.log("CHECK CENTRAL IN");
 
+  if(req.body.readOnly){
+    next();
+    return;
+  }
+
   if (process.env.NODE_NAME == "CENTRAL") {
     next();
     return;
