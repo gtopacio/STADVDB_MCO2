@@ -21,7 +21,7 @@
           <option value="l1980">L1980</option>
           <option value="ge1980">GE1980</option>
         </select>
-        <select id="isoLevelSingle0" name="isoLevelSingle0">
+        <select id="isoLevelSingle" name="isoLevelSingle">
           <option value="readuncommitted">Read Uncommitted</option>
           <option value="readcommitted">Read Committed</option>
           <option value="repeatableread">Repeatable Read</option>
@@ -61,14 +61,16 @@
           let url = $(this).attr('action');
           let textQuery = $('#querySingle').val();
           let nodeQuery = $('#nodeSingle').val();
+          let isoLevelQuery = $('#isoLevelSingle').val();
           let queries = textQuery.split(';');
           for (i = 0; i < queries.length; i++){
             queries[i] = queries[i].trim();
             if(queries[i] === "")
               queries = queries.splice(0,i).concat(queries.splice(i));
           }
+          var trans = 'single';
           try{
-            let { data } = await axios.post(url, {queries});
+            let { data } = await axios.post(url, {trans, nodeQuery, isoLevelQuery, queries});
             console.log(data);
             alert(data);
           }
@@ -81,11 +83,13 @@
       $("#formMulti").submit(async function(event) {
           event.preventDefault();
           let url = $(this).attr('action');
-          let queryCollection = []
-          let nodeCollection = []
+          let queryCollection = [];
+          let nodeCollection = [];
+          let isoLevelCollection = [];
           for (j = 0; j < cnt; j++) {
             let textQuery = $('#queryMulti' + j).val();
             let nodeQuery = $('#nodeMulti' + j).val();
+            let isoLevelQuery = $('#isoLevelMulti' + j).val();
             let queries = textQuery.split(';');
             for (i = 0; i < queries.length; i++){
               queries[i] = queries[i].trim();
@@ -94,11 +98,11 @@
             }
             queryCollection.push(queries);
             nodeCollection.push(nodeQuery);
+            isoLevelCollection.push(isoLevelQuery);
           }
-          console.log(queryCollection);
-          console.log(nodeCollection);
+          var trans = 'multi'
           try{
-            let { data } = await axios.post(url, {queryCollection});
+            let { data } = await axios.post(url, {trans, nodeCollection, isoLevelCollection, queryCollection});
             console.log(data);
             alert(data);
           }
