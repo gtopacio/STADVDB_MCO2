@@ -56,7 +56,8 @@
 
   <script>
     $(document).ready(async function () {
-      let urls = await axios.get("/urls").data;
+      let { data } = await axios.get("/urls");
+      let urls = data;
       $("#formSingle").submit(async function(event) {
           event.preventDefault();
           let url = urls[$('#nodeSingle').val()];
