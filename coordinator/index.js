@@ -6,10 +6,12 @@
 const express = require('express');
 const app = express();
 const hbs = require('hbs');
+const cors = require('cors');
 const routes = require('./routes.js');
 
 require('dotenv').config();
 app.set('view engine', 'hbs');
+app.use(cors());
 const PORT = process.env.COORDINATOR_PORT || 8000;
 const NODE_HOSTNAME = process.env.NODE_HOSTNAME;
 let server;
