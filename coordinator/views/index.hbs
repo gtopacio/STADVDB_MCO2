@@ -58,9 +58,9 @@
     $(document).ready(function () {
       $("#formSingle").submit(async function(event) {
           event.preventDefault();
-          let url = $(this).attr('action');
+          let url = /*IPADD + */$(this).attr('action');
           let textQuery = $('#querySingle').val();
-          let nodeQuery = $('#nodeSingle').val();
+          let node = $('#nodeSingle').val();
           let isolationLevel = $('#isoLevelSingle').val();
           let queries = textQuery.split(';');
           for (i = 0; i < queries.length; i++){
@@ -68,9 +68,8 @@
             if(queries[i] === "")
               queries = queries.splice(0,i).concat(queries.splice(i));
           }
-          var trans = 'single';
           try{
-            let { data } = await axios.post(url, {trans, nodeQuery, isolationLevel, queries});
+            let { data } = await axios.post(url, {node, isolationLevel, queries});
             console.log(data);
             alert(data);
           }
@@ -82,35 +81,27 @@
 
       $("#formMulti").submit(async function(event) {
           event.preventDefault();
-          let url = $(this).attr('action');
-          let queryCollection = [];
-          let nodeCollection = [];
-          let isoLevelCollection = [];
+          let url = /*IPADD + */$(this).attr('action');
           for (j = 0; j < cnt; j++) {
             let textQuery = $('#queryMulti' + j).val();
-            let nodeQuery = $('#nodeMulti' + j).val();
-            let isoLevelQuery = $('#isoLevelMulti' + j).val();
+            let node = $('#nodeMulti' + j).val();
+            let isolationLevel = $('#isoLevelMulti' + j).val();
             let queries = textQuery.split(';');
             for (i = 0; i < queries.length; i++){
               queries[i] = queries[i].trim();
               if(queries[i] === "")
                 queries = queries.splice(0,i).concat(queries.splice(i));
             }
-            queryCollection.push(queries);
-            nodeCollection.push(nodeQuery);
-            isoLevelCollection.push(isoLevelQuery);
+            try{
+              let { data } = await axios.post(url, {node, isolationLevel, queries});
+              console.log(data);
+              alert(data);
+            }
+            catch(e){
+              console.error(e);
+              alert(e);
+            }
           }
-          var trans = 'multi'
-          try{
-            let { data } = await axios.post(url, {trans, nodeCollection, isoLevelCollection, queryCollection});
-            console.log(data);
-            alert(data);
-          }
-          catch(e){
-            console.error(e);
-            alert(e);
-          }
-
       });
 
       $(".ping").click(function(){
