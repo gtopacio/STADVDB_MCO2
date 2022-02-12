@@ -6,8 +6,14 @@
 const kafka = require('../lib/kafka/connection');
 
 require('dotenv').config();
-const consumer = kafka.consumer({ 
+let consumer = kafka.consumer({ 
     groupId: process.env.NODE_NAME
+});
+
+const { CRASH } = consumer.events;
+
+let remover = consumer.on(CRASH, () => {
+    console.log("CONSUMER: Crashed...");
 });
 
 async function start(){
@@ -33,6 +39,7 @@ async function run(eachMessage){
 
 async function stop(){
     await consumer.disconnect();
+    remover();
 }
 
 module.exports = { start, stop, subscribe, run }

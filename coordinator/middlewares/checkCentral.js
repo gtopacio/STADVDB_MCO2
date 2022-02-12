@@ -29,8 +29,7 @@ async function checkCentral (req, res, next) {
   try{
     let { data } = await axios.get(centralPingURL);
     if(data){
-      res.redirect(307, centralQueryURL);
-      return;
+      return res.redirect(307, centralQueryURL);;
     }
     next();
   }
