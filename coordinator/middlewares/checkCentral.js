@@ -19,6 +19,8 @@ const ge1980PingURL = `http://${GE1980_HOSTNAME}:${COORDINATOR_PORT}/ping`;
 
 async function checkCentral (req, res, next) {
 
+  console.log("CHECK CENTRAL IN");
+
   if (process.env.NODE_NAME == "CENTRAL") {
     next();
     return;
