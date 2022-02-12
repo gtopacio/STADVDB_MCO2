@@ -24,7 +24,10 @@ async function subscribe(topic){
 }
 
 async function run(eachMessage){
-    await consumer.run({eachMessage});
+    await consumer.run({
+        eachMessage,
+        autoCommit: true
+    });
 }
 
 async function stop(){
