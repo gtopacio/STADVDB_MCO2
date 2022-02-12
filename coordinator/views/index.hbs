@@ -98,6 +98,7 @@
           }
 
           let results = await Promise.all(requests);
+          request = requests.map(({data}) => data);
           console.log(results);
           alert(results);
       });
