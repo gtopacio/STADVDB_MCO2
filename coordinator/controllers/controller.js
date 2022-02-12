@@ -87,6 +87,19 @@ const controller = {
     //     }
     //   }
     // }
+  },
+
+  urls: function(req, res){
+
+    const CENTRAL_HOSTNAME = process.env.CENTRAL_HOSTNAME;
+    const L1980_HOSTNAME = process.env.L1980_HOSTNAME;
+    const GE1980_HOSTNAME = process.env.GE1980_HOSTNAME;
+    const COORDINATOR_PORT = process.env.COORDINATOR_PORT;
+    const CENTRAL = `http://${CENTRAL_HOSTNAME}:${COORDINATOR_PORT}/query`;
+    const L1980 = `http://${L1980_HOSTNAME}:${COORDINATOR_PORT}/query`;
+    const GE1980 = `http://${GE1980_HOSTNAME}:${COORDINATOR_PORT}/query`;
+
+    res.send({ L1980, GE1980, CENTRAL });
   }
 };
 

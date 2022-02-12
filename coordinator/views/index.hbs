@@ -17,9 +17,9 @@
       <div style="display:flex">
         <textarea id="querySingle" name="querySingle"></textarea><br>
         <select id="nodeSingle" name="nodeSingle">
-          <option value="central">Central</option>
-          <option value="l1980">L1980</option>
-          <option value="ge1980">GE1980</option>
+          <option value="CENTRAL">Central</option>
+          <option value="L1980">L1980</option>
+          <option value="GE1980">GE1980</option>
         </select>
         <select id="isoLevelSingle" name="isoLevelSingle">
           <option value="READ UNCOMMITTED">Read Uncommitted</option>
@@ -40,9 +40,9 @@
       <div id="transMulti0" style="display:flex">
         <textarea id="queryMulti0" name="queryMulti0"></textarea><br>
         <select id="nodeMulti0" name="nodeMulti0">
-          <option value="central">Central</option>
-          <option value="l1980">L1980</option>
-          <option value="ge1980">GE1980</option>
+          <option value="CENTRAL">Central</option>
+          <option value="L1980">L1980</option>
+          <option value="GE1980">GE1980</option>
         </select>
         <select id="isoLevelMulti0" name="isoLevelMulti0">
           <option value="READ UNCOMMITTED">Read Uncommitted</option>
@@ -55,21 +55,20 @@
   </div>
 
   <script>
-    $(document).ready(function () {
+    $(document).ready(async function () {
+      let urls = await axios.get("/urls").data;
       $("#formSingle").submit(async function(event) {
           event.preventDefault();
-          let url = /*IPADD + */$(this).attr('action');
-          let textQuery = $('#querySingle').val();
-          let node = $('#nodeSingle').val();
+          let url = urls[$('#nodeSingle').val()];
           let isolationLevel = $('#isoLevelSingle').val();
-          let queries = textQuery.split(';');
+          let queries = $('#querySingle').val().split(';');
           for (i = 0; i < queries.length; i++){
             queries[i] = queries[i].trim();
             if(queries[i] === "")
               queries = queries.splice(0,i).concat(queries.splice(i));
           }
           try{
-            let { data } = await axios.post(url, {node, isolationLevel, queries});
+            let { data } = await axios.post(url, {isolationLevel, queries});
             console.log(data);
             alert(data);
           }
@@ -81,27 +80,25 @@
 
       $("#formMulti").submit(async function(event) {
           event.preventDefault();
-          let url = /*IPADD + */$(this).attr('action');
+          let requests = [];
           for (j = 0; j < cnt; j++) {
-            let textQuery = $('#queryMulti' + j).val();
-            let node = $('#nodeMulti' + j).val();
-            let isolationLevel = $('#isoLevelMulti' + j).val();
-            let queries = textQuery.split(';');
+            let url = urls[$('#nodeMulti' + j).val()];
+            let payload = {
+                isolationLevel: $('#isoLevelMulti' + j).val()
+            };
+            let queries = $('#queryMulti' + j).val().split(';');
             for (i = 0; i < queries.length; i++){
               queries[i] = queries[i].trim();
               if(queries[i] === "")
                 queries = queries.splice(0,i).concat(queries.splice(i));
             }
-            try{
-              let { data } = await axios.post(url, {node, isolationLevel, queries});
-              console.log(data);
-              alert(data);
-            }
-            catch(e){
-              console.error(e);
-              alert(e);
-            }
+            payload.queries = queries;
+            requests.push(axios.post(url, payload));
           }
+
+          let results = await Promise.all(requests);
+          console.log(results);
+          alert(results);
       });
 
       $(".ping").click(function(){
@@ -149,14 +146,5 @@
     document.getElementById("defaultOpen").click();
   </script>
 </body>
-        {{!-- var $form = $(this);
-        var url = $form.attr('action');
-        var posting = $.post(url, $form.serialize());
-        posting.done(function(msg) {
-          alert(msg);
-        });
-        posting.fail(function() {
-          alert("Error in transaction");
-        }); --}}
 
 </html>
