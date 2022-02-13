@@ -47,16 +47,23 @@ textarea {
   display:flex;
   flex-direction: column;
   gap:10px;
-  margin: 5px;
+  margin-bottom: 5px;
+  margin-left: 5px;
   width: 25%;
 }
 
-input {
-  margin: 5px;
+.submitBtn {
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
-.ping {
-  margin: 5px;
+.cntBtn {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.transMulti {
+  margin-top:5px;
 }
 
 #result {
