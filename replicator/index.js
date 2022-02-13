@@ -7,7 +7,8 @@ const kafka = require('../lib/kafka/connection');
 
 require('dotenv').config();
 let consumer = kafka.consumer({ 
-    groupId: process.env.NODE_NAME
+    groupId: process.env.NODE_NAME,
+    maxInFlightRequests: 1
 });
 
 const { CRASH } = consumer.events;
@@ -33,7 +34,7 @@ async function subscribe(topic){
 async function run(eachMessage){
     await consumer.run({
         eachMessage,
-        autoCommit: true
+        autoCommit: true,
     });
 }
 
