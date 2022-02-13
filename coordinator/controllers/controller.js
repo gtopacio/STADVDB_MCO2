@@ -44,7 +44,7 @@ const controller = {
 
 
     try{
-      req.body.queries.push("DELAY(1)");
+      req.body.queries.push("DO SLEEP(1)");
       let results = await db.executeTransaction(req.body);
       console.log(results);
       return res.send(results);
