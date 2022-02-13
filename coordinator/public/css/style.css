@@ -6,8 +6,9 @@ body, html {
 }
 
 textarea {
-  width: 300px;
+  width: 75%;
   height: 100px;
+  margin: 5px;
 }
 
 /* Style tab links */
@@ -31,8 +32,49 @@ textarea {
 .tabcontent {
   color: white;
   display: none;
-  padding: 100px 20px;
+  /*padding: 20px 20px;*/
   height: 100%;
+}
+
+.transContainer{
+  position: fixed;
+  top: 100px;
+  left: 10%;
+  width:30%;
+  height:75%;
+  overflow-y:auto;
+}
+
+.dropdowns{
+  display:flex;
+  flex-direction: column;
+  gap:10px;
+  margin-bottom: 5px;
+  margin-left: 5px;
+  margin-right: 5px;
+  width: 25%;
+}
+
+.submitBtn {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.cntBtn {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.transMulti {
+  margin-top:5px;
+}
+
+#result {
+  position: fixed;
+  top: 100px;
+  right: 10%;
+  width: 30%;
+  height: 75%;
 }
 
 #singleTrans {
