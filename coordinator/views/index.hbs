@@ -75,7 +75,7 @@
             let { data } = await axios.post(url, {isolationLevel, queries});
             console.log(data);
             //alert(data);
-            $("#result").val(data);
+            displayOutput(data);
           }
           catch(e){
             console.error(e);
@@ -106,7 +106,7 @@
           results = results.map(({data}) => data);
           console.log(results);
           //alert(results);
-          $("#result").val(results);
+          displayOutput(results);
       });
 
       $(".ping").click(function(){
@@ -142,6 +142,11 @@
       });
 
     });
+
+    function displayOutput(result) {
+      let output = JSON.stringify(result);
+      $("#result").val(output);
+    }
 
     function openPage(pageName, elmnt, color) {
       // Hide all elements with class="tabcontent" by default */
