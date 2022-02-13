@@ -10,6 +10,9 @@
   <button class="tablink" onclick="openPage('singleTrans', this, '#3498db')" id="defaultOpen">Single Transaction</button>
   <button class="tablink" onclick="openPage('multiTrans', this, '#2ecc71')">Multiple Transactions</button>
 
+  <textarea id="result" readonly>
+  </textarea><br>
+
   <div id="singleTrans" class="tabcontent">
     <button class="ping">PING</button><br>
     <form id="formSingle" method="post" action="/query">
@@ -71,7 +74,8 @@
           try{
             let { data } = await axios.post(url, {isolationLevel, queries});
             console.log(data);
-            alert(data);
+            //alert(data);
+            $("#result").val(data);
           }
           catch(e){
             console.error(e);
@@ -101,7 +105,8 @@
           let results = await Promise.all(requests);
           results = results.map(({data}) => data);
           console.log(results);
-          alert(results);
+          //alert(results);
+          $("#result").val(results);
       });
 
       $(".ping").click(function(){
