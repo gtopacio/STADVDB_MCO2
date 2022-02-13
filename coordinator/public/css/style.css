@@ -6,8 +6,9 @@ body, html {
 }
 
 textarea {
-  width: 300px;
+  width: 75%;
   height: 100px;
+  margin: 5px;
 }
 
 /* Style tab links */
@@ -31,8 +32,39 @@ textarea {
 .tabcontent {
   color: white;
   display: none;
-  padding: 100px 20px;
+  /*padding: 20px 20px;*/
   height: 100%;
+}
+
+.transContainer{
+  position: fixed;
+  top: 100px;
+  left: 10%;
+  width:30%;
+}
+
+.dropdowns{
+  display:flex;
+  flex-direction: column;
+  gap:10px;
+  margin: 5px;
+  width: 25%;
+}
+
+input {
+  margin: 5px;
+}
+
+.ping {
+  margin: 5px;
+}
+
+#result {
+  position: fixed;
+  top: 100px;
+  right: 10%;
+  width: 30%;
+  height: 75%;
 }
 
 #singleTrans {

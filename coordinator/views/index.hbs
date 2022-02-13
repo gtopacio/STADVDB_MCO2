@@ -10,52 +10,60 @@
   <button class="tablink" onclick="openPage('singleTrans', this, '#3498db')" id="defaultOpen">Single Transaction</button>
   <button class="tablink" onclick="openPage('multiTrans', this, '#2ecc71')">Multiple Transactions</button>
 
+  <div class="transContainer">
+    <div id="singleTrans" class="tabcontent">
+      <button class="ping">PING</button><br>
+      <form id="formSingle" method="post" action="/query">
+        <input type="submit" value="Submit">
+        <div style="display:flex">
+          <textarea id="querySingle" name="querySingle"></textarea>
+          <div class="dropdowns">
+            <select id="nodeSingle" name="nodeSingle">
+              <option value="CENTRAL">Central</option>
+              <option value="L1980">L1980</option>
+              <option value="GE1980">GE1980</option>
+            </select>
+            <select id="isoLevelSingle" name="isoLevelSingle">
+              <option value="READ UNCOMMITTED">Read Uncommitted</option>
+              <option value="READ COMMITTED">Read Committed</option>
+              <option value="REPEATABLE READ">Repeatable Read</option>
+              <option value="SERIALIZABLE">Serializable</option>
+            </select>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div id="multiTrans" class="tabcontent">
+      <button class="ping">PING</button>
+      <button id="addTransaction">+</button>
+      <button id="subTransaction">-</button>
+      <form id="formMulti" method="post" action="/query">
+        <input type="submit" value="Submit">
+        <div id="transMulti0" style="display:flex">
+          <textarea id="queryMulti0" name="queryMulti0"></textarea>
+          <div class="dropdowns">
+            <select id="nodeMulti0" name="nodeMulti0">
+              <option value="CENTRAL">Central</option>
+              <option value="L1980">L1980</option>
+              <option value="GE1980">GE1980</option>
+            </select>
+            <select id="isoLevelMulti0" name="isoLevelMulti0">
+              <option value="READ UNCOMMITTED">Read Uncommitted</option>
+              <option value="READ COMMITTED">Read Committed</option>
+              <option value="REPEATABLE READ">Repeatable Read</option>
+              <option value="SERIALIZABLE">Serializable</option>
+            </select>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <textarea id="result" readonly>
   </textarea><br>
 
-  <div id="singleTrans" class="tabcontent">
-    <button class="ping">PING</button><br>
-    <form id="formSingle" method="post" action="/query">
-      <input type="submit" value="Submit">
-      <div style="display:flex">
-        <textarea id="querySingle" name="querySingle"></textarea><br>
-        <select id="nodeSingle" name="nodeSingle">
-          <option value="CENTRAL">Central</option>
-          <option value="L1980">L1980</option>
-          <option value="GE1980">GE1980</option>
-        </select>
-        <select id="isoLevelSingle" name="isoLevelSingle">
-          <option value="READ UNCOMMITTED">Read Uncommitted</option>
-          <option value="READ COMMITTED">Read Committed</option>
-          <option value="REPEATABLE READ">Repeatable Read</option>
-          <option value="SERIALIZABLE">Serializable</option>
-        </select>
-      </div>
-    </form>
-  </div>
 
-  <div id="multiTrans" class="tabcontent">
-    <button class="ping">PING</button>
-    <button id="addTransaction">+</button>
-    <button id="subTransaction">-</button>
-    <form id="formMulti" method="post" action="/query">
-      <input type="submit" value="Submit">
-      <div id="transMulti0" style="display:flex">
-        <textarea id="queryMulti0" name="queryMulti0"></textarea><br>
-        <select id="nodeMulti0" name="nodeMulti0">
-          <option value="CENTRAL">Central</option>
-          <option value="L1980">L1980</option>
-          <option value="GE1980">GE1980</option>
-        </select>
-        <select id="isoLevelMulti0" name="isoLevelMulti0">
-          <option value="READ UNCOMMITTED">Read Uncommitted</option>
-          <option value="READ COMMITTED">Read Committed</option>
-          <option value="REPEATABLE READ">Repeatable Read</option>
-          <option value="SERIALIZABLE">Serializable</option>
-        </select>
-      </div>
-    </form>
-  </div>
 
   <script>
     $(document).ready(async function () {
@@ -119,7 +127,7 @@
       $("#addTransaction").click(function() {
         let newTrans = `<div id="transMulti${cnt}" style="display:flex">
                             <textarea id="queryMulti${cnt}" name="queryMulti${cnt}"></textarea>
-                            <br>
+                            <div class="dropdowns">
                             <select id="nodeMulti${cnt}" name="nodeMulti${cnt}">
                               <option value="CENTRAL">Central</option>
                               <option value="L1980">L1980</option>
@@ -131,6 +139,7 @@
                               <option value="REPEATABLE READ">Repeatable Read</option>
                               <option value="SERIALIZABLE">Serializable</option>
                             </select>
+                            </div>
                           </div>`;
         $('#multiTrans').append(newTrans);
         cnt++;
@@ -167,6 +176,7 @@
 
       // Add the specific color to the button used to open the tab content
       elmnt.style.backgroundColor = color;
+      $("body").css('background-color', color);
     }
 
     // Get the element with id="defaultOpen" and click on it
