@@ -144,7 +144,7 @@
     });
 
     function displayOutput(result) {
-      let output = JSON.stringify(result);
+      let output = JSON.stringify(result, null, 2);
       $("#result").val(output);
     }
 
