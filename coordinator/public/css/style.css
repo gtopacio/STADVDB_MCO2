@@ -41,6 +41,8 @@ textarea {
   top: 100px;
   left: 10%;
   width:30%;
+  height:75%;
+  overflow-y:auto;
 }
 
 .dropdowns{
@@ -49,6 +51,7 @@ textarea {
   gap:10px;
   margin-bottom: 5px;
   margin-left: 5px;
+  margin-right: 5px;
   width: 25%;
 }
 
