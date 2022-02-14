@@ -57,6 +57,7 @@ async function start(){
                 }
                 
                 if(origin === "L1980" && record.year >= 1980 && record.tombstone == 0){
+                    console.log("ATTEMPT", record);
                     let receivedClock = {clock: {CENTRAL: record.CENTRAL, L1980: record.L1980, GE1980: record.GE1980}};
                     await Promise.all([connL1980.beginTransaction(), connGE1980.beginTransaction()]);
                     let [storedRecordL1980] = connL1980.execute("SELECT CENTRAL, L1980, GE1980, tombstone FROM movie WHERE id = ? FOR UPDATE", [row.after.id]);
@@ -66,10 +67,12 @@ async function start(){
                         connL1980.execute("UPDATE SET tombstone=true WHERE id=?", [row.after.id]).then(async() =>{
                             await connL1980.commit();
                             connL1980.release();
+                            console.log("L1980 Committed");
                         }).catch(async(e) => {
-                            await connection.rollback();
+                            await connL1980.rollback();
                             console.error(e);
                             connL1980.release();
+                            console.log("L1980 Rollbacked");
                         });
                     }
 
@@ -87,12 +90,15 @@ async function start(){
                                 let values = [record.id, record.name, record.year, record.rank, record.CENTRAL, record.L1980, record.GE1980. record.tombstone];
                                 await connGE1980.execute("INSERT INTO movies (id,`name`,`year`,`rank`,CENTRAL,L1980,GE1980,tomstone) VALUES (?,?,?,?,?,?,?)", values);
                             }
-                            await connection.commit();
+                            await connGE1980.commit();
+                            console.log("GE1980 Committed");
+                            connGE1980.release();
                         }
                         catch(e){
                             console.error(e);
-                            await connection.rollback();
+                            await connGE1980.rollback();
                             connGE1980.release();
+                            console.log("GE1980 Rollbacked");
                         }
                     }
                     continue;
@@ -108,10 +114,12 @@ async function start(){
                         connGE1980.execute("UPDATE SET tombstone=true WHERE id=?", [row.after.id]).then(async() =>{
                             await connL1980.commit();
                             connGE1980.release();
+                            console.log("GE1980 Committed");
                         }).catch(async(e) => {
-                            await connection.rollback();
+                            await connGE1980.rollback();
                             console.error(e);
                             connGE1980.release();
+                            console.log("GE1980 ROllbacked");
                         });
                     }
 
@@ -129,12 +137,15 @@ async function start(){
                                 let values = [record.id, record.name, record.year, record.rank, record.CENTRAL, record.L1980, record.GE1980. record.tombstone];
                                 await connL1980.execute("INSERT INTO movies (id,`name`,`year`,`rank`,CENTRAL,L1980,GE1980,tomstone) VALUES (?,?,?,?,?,?,?)", values);
                             }
-                            await connection.commit();
+                            await connL1980.commit();
+                            connL1980.release();
+                            console.log("L1980 Committed");
                         }
                         catch(e){
                             console.error(e);
-                            await connection.rollback();
-                            connGE1980.release();
+                            await connL1980.rollback();
+                            connL1980.release();
+                            console.log("L1980 Rollbacked");
                         }
                     }
                     continue;
