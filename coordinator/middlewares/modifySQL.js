@@ -22,18 +22,34 @@ function attachClock(req, res, next){
                 val.value.push({type: 'bool', value: false});
             }
 
-            let newSQL = parser.sqlify(ast) + " AS new ON DUPLICATE KEY UPDATE";
+            ast.on_duplicate_update = {
+                keyword: 'on duplicate key update',
+                set: []
+            }
 
-            for(let i=0; i<ast.columns.length;i++){
-                let col = ast.columns[i];
-                if(i === ast.columns.length-1){
-                    newSQL += " `" + col + "` = new.`" + col + "`";
-                    continue;
-                }
-                newSQL += " `" + col + "` = new.`" + col + "`,";
+            for(let col of ast.columns){
+                ast.on_duplicate_update.set.push({
+                    column: col,
+                    value: {
+                        type: 'function',
+                        name: 'VALUES',
+                        over: null,
+                        args: {
+                            type: 'expr_list',
+                            value: [
+                                {
+                                    type: 'column_ref',
+                                    table: null,
+                                    column: col
+                                }
+                            ]
+                        }
+                    },
+                    table: null
+                });
             }
             
-            req.body.queries[i] = newSQL;
+            req.body.queries[i] = parser.sqlify(ast);
             // parser.astify(newSQL);
             continue;
         }
@@ -87,6 +103,8 @@ function attachClock(req, res, next){
 
     }
 
+    // res.send(req.body);
+    // return;
     next();
 }
 
