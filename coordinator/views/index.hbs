@@ -70,6 +70,7 @@
       let urls = data;
       $("#formSingle").submit(async function(event) {
           event.preventDefault();
+          $("#result").val("");
           let url = urls[$('#nodeSingle').val()];
           let isolationLevel = $('#isoLevelSingle').val();
           let queries = $('#querySingle').val().split(';');
@@ -92,6 +93,7 @@
 
       $("#formMulti").submit(async function(event) {
           event.preventDefault();
+          $("#result").val("");
           let requests = [];
           let payload = {
               isolationLevel: $('#isoLevelMulti').val()
