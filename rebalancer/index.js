@@ -5,6 +5,10 @@ require('dotenv').config();
 const consumer = kafka.consumer({"groupId": "rebalancer", "maxInFlightRequests": 1});
 const topics = [process.env.L1980_CHANGE_TOPIC_NAME, process.env.GE1980_CHANGE_TOPIC_NAME];
 
+const user = process.env.BACKEND_DB_USERNAME;
+const password = process.env.BACKEND_DB_PASSWORD;
+const database = process.env.DATABASE_NAME;
+
 const rebalanceL1980 = `http://${process.env.L1980_HOSTNAME}:${process.env.COORDINATOR_PORT}/rebalance`;
 const rebalanceGE1980 = `http://${process.env.GE1980_HOSTNAME}:${process.env.COORDINATOR_PORT}/rebalance`;
 
