@@ -87,8 +87,6 @@ function attachClock(req, res, next){
 
     }
 
-    res.send(req.body);
-    return;
     next();
 }
 
