@@ -160,8 +160,9 @@ async function start(){
     });
 }
 
-function stop(){
-    consumer.disconnect();
+async function stop(){
+    await consumer.disconnect();
+    process.exit(0);
 }
 
 start();

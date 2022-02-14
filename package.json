@@ -5,12 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "central": "node ./lib/starters/central.js",
-    "l1980": "node ./lib/starters/l1980.js",
-    "ge1980": "node ./lib/starters/ge1980.js",
     "general": "node ./lib/starters/general.js",
     "coordinator": "node coordinatorRunner",
-    "kafka-tester": "node ./testers/kafka-tester.js"
+    "kafka-tester": "node ./testers/kafka-tester.js",
+    "rebalancer": "node ./rebalancer/index.js"
   },
   "repository": {
     "type": "git",
