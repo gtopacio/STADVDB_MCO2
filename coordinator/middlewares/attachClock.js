@@ -22,15 +22,15 @@ function attachClock(req, res, next){
                 val.value.push({type: 'bool', value: false});
             }
 
-            let newSQL = parser.sqlify(ast) + " AS new ON DUPLICATE KEY UPDATE";
+            let newSQL = parser.sqlify(ast) + " ON DUPLICATE KEY UPDATE";
 
             for(let i=0; i<ast.columns.length;i++){
                 let col = ast.columns[i];
                 if(i === ast.columns.length-1){
-                    newSQL = `${newSQL} ${col} = new.${col}`;
+                    newSQL = `${newSQL} ${col} = VALUES(${col})`;
                     continue;
                 }
-                newSQL = `${newSQL} ${col} = new.${col},`;
+                newSQL = `${newSQL} ${col} = VALUES(${col}),`;
             }
             
             req.body.queries[i] = newSQL;
