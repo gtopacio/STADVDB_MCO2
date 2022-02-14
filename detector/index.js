@@ -11,6 +11,7 @@ const formulateChange = require('../lib/formulateChange');
 
 require('dotenv').config();
 const changeTopicName = process.env.CHANGE_TOPIC_NAME;
+const vclock = require('../lib/vectorclock');
 let timeOut;
 
 let zongji;
@@ -24,6 +25,8 @@ function binlogHandler(evt) {
     // console.log(parsed);
     // console.log(new Date(parsed.rows[0].lastUpdated));
     // handler(parsed);
+    let publishClock = vclock.increment();
+    changeData.clock = publishClock;
     kafkaProducer.publishChange({topic: changeTopicName, value: JSON.stringify(changeData)});
 }
 
@@ -62,7 +65,7 @@ function stop(){
     if(zongji){
         zongji.stop();
     }
-    kafkaProducer.stop();
+    // kafkaProducer.stop();
 }
 
 module.exports = { start, stop }
