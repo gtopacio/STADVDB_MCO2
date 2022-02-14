@@ -1,7 +1,7 @@
 const { Parser } = require('node-sql-parser');
 const parser = new Parser();
 
-async function checkLevel (req, res, next) {
+async function checkReadOnly (req, res, next) {
   let queries = req.body.queries;
   for (let i = 0; i < queries.length; i++) {
     const ast = parser.astify(queries[i]);
@@ -17,4 +17,4 @@ async function checkLevel (req, res, next) {
   next();
 }
 
-module.exports = checkLevel;
+module.exports = checkReadOnly;

@@ -5,7 +5,6 @@
 
 const express = require('express');
 const app = express();
-const hbs = require('hbs');
 const cors = require('cors');
 const routes = require('./routes.js');
 

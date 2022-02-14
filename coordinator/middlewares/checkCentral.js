@@ -2,7 +2,7 @@ const axios = require('axios');
 require('dotenv').config();
 const CENTRAL_HOSTNAME = process.env.CENTRAL_HOSTNAME;
 const COORDINATOR_PORT = process.env.COORDINATOR_PORT;
-const centralQueryURL = `http://${CENTRAL_HOSTNAME}:${COORDINATOR_PORT}/query`;
+const centralQueryURL = `http://${CENTRAL_HOSTNAME}:${COORDINATOR_PORT}/query/redirected`;
 
 const centralPingURL = `http://${CENTRAL_HOSTNAME}:${COORDINATOR_PORT}/ping`;
 
@@ -10,10 +10,8 @@ async function checkCentral (req, res, next) {
 
   console.log("CHECK CENTRAL IN");
 
-  if(req.body.readOnly){
-    next();
-    return;
-  }
+  let clock = vclock.increment();
+    req.body.clock = clock;
 
   if (process.env.NODE_NAME == "CENTRAL") {
     next();
@@ -23,7 +21,7 @@ async function checkCentral (req, res, next) {
   try{
     let { data } = await axios.get(centralPingURL);
     if(data){
-      return res.redirect(307, centralQueryURL);;
+      return await axios.post(centralQueryURL);
     }
     next();
   }
