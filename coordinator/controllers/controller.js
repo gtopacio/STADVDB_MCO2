@@ -101,6 +101,22 @@ const controller = {
     const GE1980 = `http://${GE1980_HOSTNAME}:${COORDINATOR_PORT}/query`;
 
     res.send({ L1980, GE1980, CENTRAL });
+  },
+
+  rebalance: async function(req, res){
+    if(NODE_NAME === "CENTRAL")
+      return res.end();
+
+    let connection = await db.getConnection();
+
+    await connection.beginTransaction();
+    let [storedRecord] = await connection.execute("SELECT CENTRAL, GE1980, L1980, tombstone FROM movies WHERE id = ?", [req.body.row.id]);
+    storedRecord = storedRecord[0];
+    res.send(storedRecord);
+    await connection.commit();
+    connection.release();
+    return;
+      
   }
 };
 
