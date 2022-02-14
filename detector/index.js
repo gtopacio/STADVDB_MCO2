@@ -62,6 +62,7 @@ function stop(){
     if(zongji){
         zongji.stop();
     }
+    kafkaProducer.stop();
 }
 
 module.exports = { start, stop }
