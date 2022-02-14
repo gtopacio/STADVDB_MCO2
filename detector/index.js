@@ -19,6 +19,8 @@ function binlogHandler(evt) {
     let changeData = formulateChange({evt});
     if(!changeData)
         return;
+    if(changeData.tableName !== "movies")
+        return;
     // console.log(changeData);
     // console.log("Bin Log", stringified);
     // console.log(parsed);
