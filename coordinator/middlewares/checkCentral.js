@@ -1,4 +1,5 @@
 const axios = require('axios');
+const vclock = require('../../lib/vectorclock');
 require('dotenv').config();
 const CENTRAL_HOSTNAME = process.env.CENTRAL_HOSTNAME;
 const COORDINATOR_PORT = process.env.COORDINATOR_PORT;
@@ -21,7 +22,7 @@ async function checkCentral (req, res, next) {
   try{
     let { data } = await axios.get(centralPingURL);
     if(data){
-      return await axios.post(centralQueryURL);
+      return await axios.post(centralQueryURL, req.body);
     }
     next();
   }
