@@ -13,6 +13,7 @@ async function checkCentral (req, res, next) {
 
   let clock = vclock.increment();
     req.body.clock = clock;
+    console.log(req.body.clock);
 
   if (process.env.NODE_NAME == "CENTRAL") {
     next();
