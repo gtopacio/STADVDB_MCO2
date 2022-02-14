@@ -87,12 +87,12 @@ async function start(){
                     if(vectorClock.compare(receivedClock, recordGE1980) === vectorClock.GT){
                         try{
                             if(storedRecordGE1980){
-                                let values = [record.id, record.name, record.year, record.rank, record.CENTRAL, record.L1980, record.GE1980. record.tombstone];
+                                let values = [record.id, record.name, record.year, record.rank, record.CENTRAL, record.L1980, record.GE1980, record.tombstone];
                                 await connGE1980.execute("UPDATE movies SET id = ?, `name` = ?, `year` = ?, `rank` = ?, CENTRAL = ?, L1980 = ?, GE1980 = ?, tombstone = ?", values);
                             }
                             else{
-                                let values = [record.id, record.name, record.year, record.rank, record.CENTRAL, record.L1980, record.GE1980. record.tombstone];
-                                await connGE1980.execute("INSERT INTO movies (id,`name`,`year`,`rank`,CENTRAL,L1980,GE1980,tomstone) VALUES (?,?,?,?,?,?,?)", values);
+                                let values = [record.id, record.name, record.year, record.rank, record.CENTRAL, record.L1980, record.GE1980, record.tombstone];
+                                await connGE1980.execute("INSERT INTO movies (id,`name`,`year`,`rank`,CENTRAL,L1980,GE1980,tombstone) VALUES (?,?,?,?,?,?,?)", values);
                             }
                             await connGE1980.commit();
                             console.log("GE1980 Committed");
@@ -134,12 +134,12 @@ async function start(){
                     if(vectorClock.compare(receivedClock, recordL1980) === vectorClock.GT){
                         try{
                             if(storedRecordL1980){
-                                let values = [record.id, record.name, record.year, record.rank, record.CENTRAL, record.L1980, record.GE1980. record.tombstone];
+                                let values = [record.id, record.name, record.year, record.rank, record.CENTRAL, record.L1980, record.GE1980, record.tombstone];
                                 await connL1980.execute("UPDATE movies SET id = ?, `name` = ?, `year` = ?, `rank` = ?, CENTRAL = ?, L1980 = ?, GE1980 = ?, tombstone = ?", values);
                             }
                             else{
-                                let values = [record.id, record.name, record.year, record.rank, record.CENTRAL, record.L1980, record.GE1980. record.tombstone];
-                                await connL1980.execute("INSERT INTO movies (id,`name`,`year`,`rank`,CENTRAL,L1980,GE1980,tomstone) VALUES (?,?,?,?,?,?,?)", values);
+                                let values = [record.id, record.name, record.year, record.rank, record.CENTRAL, record.L1980, record.GE1980, record.tombstone];
+                                await connL1980.execute("INSERT INTO movies (id,`name`,`year`,`rank`,CENTRAL,L1980,GE1980,tombstone) VALUES (?,?,?,?,?,?,?)", values);
                             }
                             await connL1980.commit();
                             connL1980.release();
