@@ -64,7 +64,7 @@ async function start(){
                     console.log("ATTEMPT", record);
                     let receivedClock = {clock: {CENTRAL: record.CENTRAL, L1980: record.L1980, GE1980: record.GE1980}};
                     await Promise.all([connL1980.beginTransaction(), connGE1980.beginTransaction()]);
-                    let [storedRecordL1980] = connL1980.execute("SELECT CENTRAL, L1980, GE1980, tombstone FROM movie WHERE id = ? FOR UPDATE", [row.after.id]);
+                    let [storedRecordL1980] = connL1980.execute("SELECT CENTRAL, L1980, GE1980, tombstone FROM movies WHERE id = ? FOR UPDATE", [row.after.id]);
                     storedRecordL1980 = storedRecordL1980[0];
                     recordL1980 = {clock: storedRecordL1980};
                     if(vectorClock.isIdentical(recordL1980, receivedClock)){
@@ -80,7 +80,7 @@ async function start(){
                         });
                     }
 
-                    let [storedRecordGE1980] = await connGE1980.execute("SELECT CENTRAL, L1980, GE1980, tombstone FROM movie WHERE id = ? FOR UPDATE");
+                    let [storedRecordGE1980] = await connGE1980.execute("SELECT CENTRAL, L1980, GE1980, tombstone FROM movies WHERE id = ? FOR UPDATE");
                     storedRecordGE1980 = storedRecordGE1980[0];
                     recordGE1980 = {clock: storedRecordGE1980};
 
