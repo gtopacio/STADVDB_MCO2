@@ -50,7 +50,7 @@ async function start(){
             let connL1980 = await promisePools.L1980.getConnection();
             let connGE1980 = await promisePools.GE1980.getConnection();
 
-            await Promise.all([connGE1980.execute("SET sql_bin_log = OFF"), connL1980.execute("SET sql_bin_log = OFF")]);
+            await Promise.all([connGE1980.execute("SET sql_log_bin = OFF"), connL1980.execute("SET sql_log_bin = OFF")]);
 
             for(let row of rows){
 
