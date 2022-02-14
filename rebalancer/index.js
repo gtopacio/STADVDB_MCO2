@@ -1,4 +1,4 @@
-const { default: axios } = require('axios');
+const mysql = require('mysql2');
 const kafka = require('../lib/kafka/connection');
 const vectorClock = require('vectorclock');
 require('dotenv').config();
