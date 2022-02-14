@@ -14,12 +14,26 @@ function attachClock(req, res, next){
             ast.columns.push("CENTRAL");
             ast.columns.push("L1980");
             ast.columns.push("GE1980");
+            ast.columns.push("tombstone");
             for(let val of ast.values){
                 val.value.push({type: 'number', value: clock.CENTRAL});
                 val.value.push({type: 'number', value: clock.L1980});
                 val.value.push({type: 'number', value: clock.GE1980});
+                val.value.push({type: 'bool', value: false});
             }
-            req.body.queries[i] = parser.sqlify(ast);
+
+            let newSQL = parser.sqlify(ast) + " AS new ON DUPLICATE KEY UPDATE";
+
+            for(let i=0; i<ast.columns.length;i++){
+                let col = ast.columns[i];
+                if(i === ast.columns.length-1){
+                    newSQL = `${newSQL} ${col} = new.${col}`;
+                    continue;
+                }
+                newSQL = `${newSQL} ${col} = new.${col},`;
+            }
+            
+            req.body.queries[i] = newSQL;
             continue;
         }
         else if(ast.type === "update"){
@@ -71,6 +85,7 @@ function attachClock(req, res, next){
         }
 
     }
+
     next();
 }
 
