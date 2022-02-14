@@ -23,7 +23,9 @@ async function checkCentral (req, res, next) {
   try{
     let { data } = await axios.get(centralPingURL);
     if(data){
-      return await axios.post(centralQueryURL, req.body);
+      let { data } = await axios.post(centralQueryURL, req.body);
+      res.send(data);
+      return;
     }
     next();
   }
