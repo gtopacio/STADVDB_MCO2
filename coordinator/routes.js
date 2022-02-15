@@ -11,9 +11,9 @@ app.use(express.static(__dirname + '/public'));
 
 app.get('/', controller.getIndex);
 app.post('/query', checkCentral, checkSql, checkReadOnly, modifySQL, controller.query);
-app.post('/query/redirected', redirectedCheckCentral, checkSql, checkReadOnly, modifySQL, controller.query);
+// app.post('/query/redirected', redirectedCheckCentral, checkSql, checkReadOnly, modifySQL, controller.query);
 app.get("/ping", controller.ping);
 app.get("/urls", controller.urls);
-app.post("/rebalance", controller.rebalance);
+// app.post("/rebalance", controller.rebalance);
 
 module.exports = app;

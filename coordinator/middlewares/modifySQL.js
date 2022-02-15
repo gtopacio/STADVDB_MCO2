@@ -5,7 +5,7 @@ const parser = new Parser();
 
 function attachClock(req, res, next){
 
-    let {clock} = req.body.clock;
+    let {clock} = vclock.increment();
 
     for(let i=0; i<req.body.queries.length; i++){
         let query = req.body.queries[i];
