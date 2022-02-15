@@ -161,7 +161,7 @@ async function start(){
                         try{
                             if(storedRecordL1980){
                                 let values = [record.name, record.year, record.rank, record.CENTRAL, record.L1980, record.GE1980, record.tombstone];
-                                await connL1980.execute("UPDATE movies `name` = ?, `year` = ?, `rank` = ?, CENTRAL = ?, L1980 = ?, GE1980 = ?, tombstone = ?", values);
+                                await connL1980.execute("UPDATE movies SET `name` = ?, `year` = ?, `rank` = ?, CENTRAL = ?, L1980 = ?, GE1980 = ?, tombstone = ?", values);
                             }
                             else{
                                 let values = [record.id, record.name, record.year, record.rank, record.CENTRAL, record.L1980, record.GE1980, record.tombstone];
