@@ -19,8 +19,8 @@ let pools = {
         password,
         database,
         connectionLimit: 4,
-        queueLimit: 0
-        // acquireTimeout: 5000
+        queueLimit: 0,
+        acquireTimeout: 5000
     }),
     GE1980: mysql.createPool({
         host: process.env.GE1980_HOSTNAME,
@@ -28,8 +28,8 @@ let pools = {
         password,
         database,
         connectionLimit: 4,
-        queueLimit: 0
-        // acquireTimeout: 5000
+        queueLimit: 0,
+        acquireTimeout: 5000
     })
 };
 
@@ -68,6 +68,8 @@ async function start(){
                 if(type === "update"){
                     record = row.after;
                 }
+
+                console.log("IN LOOP");
                 
                 if(origin === "L1980" && record.year >= 1980 && record.tombstone == 0){
                     console.log("ATTEMPT", record, origin);
