@@ -38,11 +38,12 @@ let promisePools = {
     GE1980: pools.GE1980.promise()
 };
 
-const { CONNECT, DISCONNECT, CRASH } = consumer.events;
+const { CONNECT, DISCONNECT, CRASH, FETCH } = consumer.events;
 
-consumer.on(CONNECT, () => { console.log("Consumer Connected..."); });
-consumer.on(DISCONNECT, () => { console.log("Consumer Disconnected..."); });
-consumer.on(CRASH, () => { console.log("Consumer Crashed..."); });
+let connectRemover = consumer.on(CONNECT, () => { console.log("Consumer Connected..."); });
+let disconenctRemover = consumer.on(DISCONNECT, () => { console.log("Consumer Disconnected..."); });
+let crashRemover = consumer.on(CRASH, () => { console.log("Consumer Crashed..."); });
+let fetchRemover = consumer.on(FETCH, () => { console.log("Reached End") });
 
 async function start(){
     await consumer.connect();
@@ -197,6 +198,10 @@ async function start(){
 
 async function stop(){
     await consumer.disconnect();
+    connectRemover();
+    disconenctRemover();
+    crashRemover();
+    fetchRemover();
     process.exit(0);
 }
 
