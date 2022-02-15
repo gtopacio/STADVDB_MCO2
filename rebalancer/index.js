@@ -38,6 +38,12 @@ let promisePools = {
     GE1980: pools.GE1980.promise()
 };
 
+const { CONNECT, DISCONNECT, CRASH } = consumer.events;
+
+consumer.on(CONNECT, () => { console.log("Consumer Connected..."); });
+consumer.on(DISCONNECT, () => { console.log("Consumer Disconnected..."); });
+consumer.on(CRASH, () => { console.log("Consumer Crashed..."); });
+
 async function start(){
     await consumer.connect();
     for(let topic of topics){
