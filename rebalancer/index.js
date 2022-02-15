@@ -72,7 +72,7 @@ async function start(){
                     await Promise.all([connL1980.beginTransaction(), connGE1980.beginTransaction()]);
                     let [storedRecordL1980] = await connL1980.execute("SELECT CENTRAL, L1980, GE1980, tombstone FROM movies WHERE id = ? FOR UPDATE", [record.id]);
                     storedRecordL1980 = storedRecordL1980[0];
-                    recordL1980 = {clock: storedRecordL1980};
+                    recordL1980 = {clock: {CENTRAL: storedRecordL1980.CENTRAL, L1980: storedRecordL1980.L1980, GE1980: storedRecordL1980.GE1980}};
                     if(vectorClock.isIdentical(recordL1980, receivedClock)){
                         connL1980.execute("UPDATE SET tombstone=true WHERE id=?", [row.after.id]).then(async() =>{
                             await connL1980.commit();
@@ -88,7 +88,7 @@ async function start(){
 
                     let [storedRecordGE1980] = await connGE1980.execute("SELECT CENTRAL, L1980, GE1980, tombstone FROM movies WHERE id = ? FOR UPDATE", [record.id]);
                     storedRecordGE1980 = storedRecordGE1980[0];
-                    recordGE1980 = {clock: storedRecordGE1980};
+                    recordGE1980 = {clock: {CENTRAL: storedRecordGE1980.CENTRAL, L1980: storedRecordGE1980.L1980, GE1980: storedRecordGE1980.GE1980}};
 
                     if(vectorClock.compare(receivedClock, recordGE1980) === vectorClock.GT){
                         try{
@@ -119,7 +119,7 @@ async function start(){
                     await Promise.all([connL1980.beginTransaction(), connGE1980.beginTransaction()]);
                     let [storedRecordGE1980] = connGE1980.execute("SELECT CENTRAL, L1980, GE1980, tombstone FROM movie WHERE id = ? FOR UPDATE", [record.id]);
                     storedRecordGE1980 = storedRecordGE1980[0];
-                    recordGE1980 = {clock: storedRecordGE1980};
+                    recordGE1980 = {clock: {CENTRAL: storedRecordGE1980.CENTRAL, L1980: storedRecordGE1980.L1980, GE1980: storedRecordGE1980.GE1980}};
                     if(vectorClock.isIdentical(recordGE1980, receivedClock)){
                         connGE1980.execute("UPDATE SET tombstone=true WHERE id=?", [row.after.id]).then(async() =>{
                             await connL1980.commit();
@@ -135,7 +135,7 @@ async function start(){
 
                     let [storedRecordL1980] = await connL1980.execute("SELECT CENTRAL, L1980, GE1980, tombstone FROM movie WHERE id = ? FOR UPDATE", [record.id]);
                     storedRecordL1980 = storedRecordL1980[0];
-                    recordL1980 = {clock: storedRecordL1980};
+                    recordL1980 = {clock: {CENTRAL: storedRecordL1980.CENTRAL, L1980: storedRecordL1980.L1980, GE1980: storedRecordL1980.GE1980}};
 
                     if(vectorClock.compare(receivedClock, recordL1980) === vectorClock.GT){
                         try{
