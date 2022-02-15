@@ -19,8 +19,8 @@ let pools = {
         password,
         database,
         connectionLimit: 4,
-        queueLimit: 0,
-        acquireTimeout: 5000
+        queueLimit: 0
+        // acquireTimeout: 5000
     }),
     GE1980: mysql.createPool({
         host: process.env.GE1980_HOSTNAME,
@@ -28,8 +28,8 @@ let pools = {
         password,
         database,
         connectionLimit: 4,
-        queueLimit: 0,
-        acquireTimeout: 5000
+        queueLimit: 0
+        // acquireTimeout: 5000
     })
 };
 
