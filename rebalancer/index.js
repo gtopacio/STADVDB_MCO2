@@ -48,7 +48,7 @@ async function start(){
     await consumer.connect();
     for(let topic of topics){
         console.log(topic);
-        await consumer.subscribe({topic});
+        await consumer.subscribe({topic, "fromBeginning": true});
     }
     await consumer.run({
         "eachMessage": async function({message}){
