@@ -64,7 +64,6 @@ async function start(){
             for(let row of rows){
 
                 let record = row;
-
                 if(type === "update"){
                     record = row.after;
                 }
@@ -72,8 +71,10 @@ async function start(){
                 if(origin === "L1980" && record.year >= 1980 && record.tombstone == 0){
                     console.log("ATTEMPT", record, origin);
                     let receivedClock = {clock: {CENTRAL: record.CENTRAL, L1980: record.L1980, GE1980: record.GE1980}};
+
                     await Promise.all([connL1980.beginTransaction(), connGE1980.beginTransaction()]);
-                    let [storedRecordL1980] = await connL1980.execute("SELECT CENTRAL, L1980, GE1980, tombstone FROM movies WHERE id = ?", [record.id]);
+
+                    let [storedRecordL1980] = await connL1980.execute("SELECT CENTRAL, L1980, GE1980, tombstone FROM movies WHERE id = ? FOR UPDATE", [record.id]);
                     storedRecordL1980 = storedRecordL1980[0];
                     if(storedRecordL1980){
                         recordL1980 = {clock: {CENTRAL: storedRecordL1980.CENTRAL, L1980: storedRecordL1980.L1980, GE1980: storedRecordL1980.GE1980}};
@@ -94,8 +95,11 @@ async function start(){
                             console.log("L1980 Rollbacked");
                         }
                     }
+                    else{
+                        await connL1980.rollback();
+                    }
 
-                    let [storedRecordGE1980] = await connGE1980.execute("SELECT CENTRAL, L1980, GE1980, tombstone FROM movies WHERE id = ?", [record.id]);
+                    let [storedRecordGE1980] = await connGE1980.execute("SELECT CENTRAL, L1980, GE1980, tombstone FROM movies WHERE id = ? FOR UPDATE", [record.id]);
                     storedRecordGE1980 = storedRecordGE1980[0];
                     if(storedRecordGE1980){
                         recordGE1980 = {clock: {CENTRAL: storedRecordGE1980.CENTRAL, L1980: storedRecordGE1980.L1980, GE1980: storedRecordGE1980.GE1980}};
@@ -123,6 +127,9 @@ async function start(){
                             console.log("GE1980 Rollbacked");
                         }
                     }
+                    else{
+                        await connGE1980.rollback();
+                    }
                     continue;
                 }
                 
@@ -141,7 +148,7 @@ async function start(){
                     if(vectorClock.isIdentical(recordGE1980, receivedClock) || vectorClock.compare(recordGE1980, receivedClock) == vectorClock.LT){
                         try{
                             let [res] = await connGE1980.execute("UPDATE movies SET tombstone = true WHERE id = ?", [record.id]);
-                            await connL1980.commit();
+                            await connGE1980.commit();
                             console.log(res);
                             console.log("GE1980 Committed");
                         }
@@ -150,6 +157,9 @@ async function start(){
                             console.error(e);
                             console.log("GE1980 Rollbacked");
                         }
+                    }
+                    else{
+                        await connGE1980.rollback();
                     }
 
                     let [storedRecordL1980] = await connL1980.execute("SELECT CENTRAL, L1980, GE1980, tombstone FROM movies WHERE id = ? FOR UPDATE", [record.id]);
@@ -180,9 +190,11 @@ async function start(){
                             console.log("L1980 Rollbacked");
                         }
                     }
+                    else{
+                        await connL1980.rollback();
+                    }
                     continue;
                 }
-
             }
             console.log("END RUN");
             connGE1980.release();
