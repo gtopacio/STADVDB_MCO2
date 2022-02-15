@@ -18,8 +18,8 @@ let pools = {
         user,
         password,
         database,
-        connectionLimit: 10,
-        queueLimit: 0,
+        connectionLimit: 4,
+        queueLimit: 0
         // acquireTimeout: 5000
     }),
     GE1980: mysql.createPool({
@@ -27,8 +27,8 @@ let pools = {
         user,
         password,
         database,
-        connectionLimit: 10,
-        queueLimit: 0,
+        connectionLimit: 4,
+        queueLimit: 0
         // acquireTimeout: 5000
     })
 };
@@ -56,6 +56,7 @@ async function start(){
 
             let connL1980 = await promisePools.L1980.getConnection();
             let connGE1980 = await promisePools.GE1980.getConnection();
+            console.log("Connection Acquired");
 
             await Promise.all([connGE1980.execute("SET sql_log_bin = OFF"), connL1980.execute("SET sql_log_bin = OFF")]);
 
