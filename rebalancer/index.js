@@ -92,7 +92,7 @@ async function start(){
                             }
                             else{
                                 let values = [record.id, record.name, record.year, record.rank, record.CENTRAL, record.L1980, record.GE1980, record.tombstone];
-                                await connGE1980.execute("INSERT INTO movies (id,`name`,`year`,`rank`,CENTRAL,L1980,GE1980,tombstone) VALUES (?,?,?,?,?,?,?)", values);
+                                await connGE1980.execute("INSERT INTO movies (id,`name`,`year`,`rank`,CENTRAL,L1980,GE1980,tombstone) VALUES (?,?,?,?,?,?,?,?)", values);
                             }
                             await connGE1980.commit();
                             console.log("GE1980 Committed");
