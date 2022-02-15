@@ -34,7 +34,7 @@ async function subscribe(topic){
 async function run(eachMessage){
     await consumer.run({
         eachMessage,
-        autoCommit: true,
+        autoCommit: true
     });
 }
 
