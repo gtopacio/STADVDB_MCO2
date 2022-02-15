@@ -79,7 +79,7 @@ async function start(){
                     else{
                         recordL1980 = { clock: {CENTRAL: 0, L1980: 0, GE1980: 0 } };
                     }
-                    if(vectorClock.isIdentical(recordL1980, receivedClock)){
+                    if(vectorClock.isIdentical(recordL1980, receivedClock) || vectorClock.compare(recordL1980, receivedClock) == vectorClock.LT){
                         connL1980.execute("UPDATE movies SET tombstone=true WHERE id=?", [record.id]).then(async() =>{
                             await connL1980.commit();
                             connL1980.release();
@@ -137,9 +137,9 @@ async function start(){
                     else{
                         recordGE1980 = { clock: {CENTRAL: 0, L1980: 0, GE1980: 0 } };
                     }
-                    if(vectorClock.isIdentical(recordGE1980, receivedClock)){
+                    if(vectorClock.isIdentical(recordGE1980, receivedClock) || vectorClock.compare(recordGE1980, receivedClock) == vectorClock.LT){
                         connGE1980.execute("UPDATE movies SET tombstone=true WHERE id=?", [record.id]).then(async() =>{
-                            await connL1980.commit();
+                            await connGE1980.commit();
                             connGE1980.release();
                             console.log("GE1980 Committed");
                         }).catch(async(e) => {
