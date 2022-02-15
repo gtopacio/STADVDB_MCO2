@@ -166,6 +166,7 @@ async function start(){
                     }
 
                     let [storedRecordL1980] = await connL1980.execute("SELECT CENTRAL, L1980, GE1980, tombstone FROM movies WHERE id = ? FOR UPDATE", [record.id]);
+                    storedRecordL1980 = storedRecordL1980[0];
                     let recordL1980;
                     if(storedRecordL1980){
                         recordL1980 = {clock: {CENTRAL: storedRecordL1980.CENTRAL, L1980: storedRecordL1980.L1980, GE1980: storedRecordL1980.GE1980}};
