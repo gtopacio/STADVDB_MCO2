@@ -76,6 +76,7 @@ async function start(){
 
                     let [storedRecordL1980] = await connL1980.execute("SELECT CENTRAL, L1980, GE1980, tombstone FROM movies WHERE id = ? FOR UPDATE", [record.id]);
                     storedRecordL1980 = storedRecordL1980[0];
+                    let recordL1980;
                     if(storedRecordL1980){
                         recordL1980 = {clock: {CENTRAL: storedRecordL1980.CENTRAL, L1980: storedRecordL1980.L1980, GE1980: storedRecordL1980.GE1980}};
                     }
@@ -101,6 +102,7 @@ async function start(){
 
                     let [storedRecordGE1980] = await connGE1980.execute("SELECT CENTRAL, L1980, GE1980, tombstone FROM movies WHERE id = ? FOR UPDATE", [record.id]);
                     storedRecordGE1980 = storedRecordGE1980[0];
+                    let recordGE1980;
                     if(storedRecordGE1980){
                         recordGE1980 = {clock: {CENTRAL: storedRecordGE1980.CENTRAL, L1980: storedRecordGE1980.L1980, GE1980: storedRecordGE1980.GE1980}};
                     }
@@ -139,6 +141,7 @@ async function start(){
                     await Promise.all([connL1980.beginTransaction(), connGE1980.beginTransaction()]);
                     let [storedRecordGE1980] = await connGE1980.execute("SELECT CENTRAL, L1980, GE1980, tombstone FROM movies WHERE id = ? FOR UPDATE", [record.id]);
                     storedRecordGE1980 = storedRecordGE1980[0];
+                    let recordGE1980;
                     if(storedRecordGE1980){
                         recordGE1980 = {clock: {CENTRAL: storedRecordGE1980.CENTRAL, L1980: storedRecordGE1980.L1980, GE1980: storedRecordGE1980.GE1980}};
                     }
@@ -163,13 +166,13 @@ async function start(){
                     }
 
                     let [storedRecordL1980] = await connL1980.execute("SELECT CENTRAL, L1980, GE1980, tombstone FROM movies WHERE id = ? FOR UPDATE", [record.id]);
+                    let recordL1980;
                     if(storedRecordL1980){
                         recordL1980 = {clock: {CENTRAL: storedRecordL1980.CENTRAL, L1980: storedRecordL1980.L1980, GE1980: storedRecordL1980.GE1980}};
                     }
                     else{
                         recordL1980 = { clock: {CENTRAL: 0, L1980: 0, GE1980: 0 } };
                     }
-                    recordL1980 = {clock: {CENTRAL: storedRecordL1980.CENTRAL, L1980: storedRecordL1980.L1980, GE1980: storedRecordL1980.GE1980}};
 
                     if(vectorClock.compare(receivedClock, recordL1980) === vectorClock.GT || vectorClock.isIdentical(receivedClock, recordL1980)){
                         try{
