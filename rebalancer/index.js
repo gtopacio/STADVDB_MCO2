@@ -79,7 +79,7 @@ async function start(){
                         recordL1980 = { clock: {CENTRAL: 0, L1980: 0, GE1980: 0 } };
                     }
                     if(vectorClock.isIdentical(recordL1980, receivedClock)){
-                        connL1980.execute("UPDATE SET tombstone=true WHERE id=?", [row.after.id]).then(async() =>{
+                        connL1980.execute("UPDATE movies SET tombstone=true WHERE id=?", [row.after.id]).then(async() =>{
                             await connL1980.commit();
                             connL1980.release();
                             console.log("L1980 Committed");
@@ -103,8 +103,8 @@ async function start(){
                     if(vectorClock.compare(receivedClock, recordGE1980) === vectorClock.GT){
                         try{
                             if(storedRecordGE1980){
-                                let values = [record.id, record.name, record.year, record.rank, record.CENTRAL, record.L1980, record.GE1980, record.tombstone];
-                                await connGE1980.execute("UPDATE movies SET id = ?, `name` = ?, `year` = ?, `rank` = ?, CENTRAL = ?, L1980 = ?, GE1980 = ?, tombstone = ?", values);
+                                let values = [record.name, record.year, record.rank, record.CENTRAL, record.L1980, record.GE1980, record.tombstone];
+                                await connGE1980.execute("UPDATE movies SET `name` = ?, `year` = ?, `rank` = ?, CENTRAL = ?, L1980 = ?, GE1980 = ?, tombstone = ?", values);
                             }
                             else{
                                 let values = [record.id, record.name, record.year, record.rank, record.CENTRAL, record.L1980, record.GE1980, record.tombstone];
@@ -136,7 +136,7 @@ async function start(){
                         recordGE1980 = { clock: {CENTRAL: 0, L1980: 0, GE1980: 0 } };
                     }
                     if(vectorClock.isIdentical(recordGE1980, receivedClock)){
-                        connGE1980.execute("UPDATE SET tombstone=true WHERE id=?", [row.after.id]).then(async() =>{
+                        connGE1980.execute("UPDATE movies SET tombstone=true WHERE id=?", [row.after.id]).then(async() =>{
                             await connL1980.commit();
                             connGE1980.release();
                             console.log("GE1980 Committed");
@@ -160,8 +160,8 @@ async function start(){
                     if(vectorClock.compare(receivedClock, recordL1980) === vectorClock.GT){
                         try{
                             if(storedRecordL1980){
-                                let values = [record.id, record.name, record.year, record.rank, record.CENTRAL, record.L1980, record.GE1980, record.tombstone];
-                                await connL1980.execute("UPDATE movies SET id = ?, `name` = ?, `year` = ?, `rank` = ?, CENTRAL = ?, L1980 = ?, GE1980 = ?, tombstone = ?", values);
+                                let values = [record.name, record.year, record.rank, record.CENTRAL, record.L1980, record.GE1980, record.tombstone];
+                                await connL1980.execute("UPDATE movies `name` = ?, `year` = ?, `rank` = ?, CENTRAL = ?, L1980 = ?, GE1980 = ?, tombstone = ?", values);
                             }
                             else{
                                 let values = [record.id, record.name, record.year, record.rank, record.CENTRAL, record.L1980, record.GE1980, record.tombstone];
