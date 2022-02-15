@@ -68,8 +68,6 @@ async function start(){
                 if(type === "update"){
                     record = row.after;
                 }
-
-                console.log("IN LOOP");
                 
                 if(origin === "L1980" && record.year >= 1980 && record.tombstone == 0){
                     console.log("ATTEMPT", record, origin);
@@ -87,14 +85,12 @@ async function start(){
                         try{
                             let [res] = await connL1980.execute("UPDATE movies SET tombstone = true WHERE id = ?", [record.id]);
                             await connL1980.commit();
-                            connL1980.release();
                             console.log(res);
                             console.log("L1980 Committed");
                         }
                         catch(e){
                             await connL1980.rollback();
                             console.error(e);
-                            connL1980.release();
                             console.log("L1980 Rollbacked");
                         }
                     }
@@ -120,12 +116,10 @@ async function start(){
                             }
                             await connGE1980.commit();
                             console.log("GE1980 Committed");
-                            connGE1980.release();
                         }
                         catch(e){
                             console.error(e);
                             await connGE1980.rollback();
-                            connGE1980.release();
                             console.log("GE1980 Rollbacked");
                         }
                     }
@@ -148,14 +142,12 @@ async function start(){
                         try{
                             let [res] = await connGE1980.execute("UPDATE movies SET tombstone = true WHERE id = ?", [record.id]);
                             await connL1980.commit();
-                            connGE1980.release();
                             console.log(res);
                             console.log("GE1980 Committed");
                         }
                         catch(e){
                             await connGE1980.rollback();
                             console.error(e);
-                            connGE1980.release();
                             console.log("GE1980 Rollbacked");
                         }
                     }
@@ -180,13 +172,11 @@ async function start(){
                                 await connL1980.execute("INSERT INTO movies (id,`name`,`year`,`rank`,CENTRAL,L1980,GE1980,tombstone) VALUES (?,?,?,?,?,?,?)", values);
                             }
                             await connL1980.commit();
-                            connL1980.release();
                             console.log("L1980 Committed");
                         }
                         catch(e){
                             console.error(e);
                             await connL1980.rollback();
-                            connL1980.release();
                             console.log("L1980 Rollbacked");
                         }
                     }
@@ -195,6 +185,8 @@ async function start(){
 
             }
             console.log("END RUN");
+            connGE1980.release();
+            connL1980.release();
         }
     });
 }
