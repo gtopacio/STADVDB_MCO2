@@ -73,7 +73,7 @@ async function start(){
                     console.log("ATTEMPT", record, origin);
                     let receivedClock = {clock: {CENTRAL: record.CENTRAL, L1980: record.L1980, GE1980: record.GE1980}};
                     await Promise.all([connL1980.beginTransaction(), connGE1980.beginTransaction()]);
-                    let [storedRecordL1980] = await connL1980.execute("SELECT CENTRAL, L1980, GE1980, tombstone FROM movies WHERE id = ? FOR UPDATE", [record.id]);
+                    let [storedRecordL1980] = await connL1980.execute("SELECT CENTRAL, L1980, GE1980, tombstone FROM movies WHERE id = ?", [record.id]);
                     storedRecordL1980 = storedRecordL1980[0];
                     if(storedRecordL1980){
                         recordL1980 = {clock: {CENTRAL: storedRecordL1980.CENTRAL, L1980: storedRecordL1980.L1980, GE1980: storedRecordL1980.GE1980}};
@@ -97,7 +97,7 @@ async function start(){
                         }
                     }
 
-                    let [storedRecordGE1980] = await connGE1980.execute("SELECT CENTRAL, L1980, GE1980, tombstone FROM movies WHERE id = ? FOR UPDATE", [record.id]);
+                    let [storedRecordGE1980] = await connGE1980.execute("SELECT CENTRAL, L1980, GE1980, tombstone FROM movies WHERE id = ?", [record.id]);
                     storedRecordGE1980 = storedRecordGE1980[0];
                     if(storedRecordGE1980){
                         recordGE1980 = {clock: {CENTRAL: storedRecordGE1980.CENTRAL, L1980: storedRecordGE1980.L1980, GE1980: storedRecordGE1980.GE1980}};
