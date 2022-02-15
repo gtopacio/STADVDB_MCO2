@@ -23,7 +23,7 @@ async function start(){
 
 async function subscribe(topic){
     try{
-        await consumer.subscribe({topic});
+        await consumer.subscribe({topic, "fromBeginning": true});
         console.log("Subscribed to " + topic);
     }
     catch(e){
