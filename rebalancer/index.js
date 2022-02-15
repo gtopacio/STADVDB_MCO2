@@ -101,7 +101,7 @@ async function start(){
                         recordGE1980 = { clock: {CENTRAL: 0, L1980: 0, GE1980: 0 } };
                     }
 
-                    if(vectorClock.compare(receivedClock, recordGE1980) === vectorClock.GT){
+                    if(vectorClock.compare(receivedClock, recordGE1980) === vectorClock.GT || vectorClock.isIdentical(receivedClock, recordGE1980)){
                         try{
                             if(storedRecordGE1980){
                                 let values = [record.name, record.year, record.rank, record.CENTRAL, record.L1980, record.GE1980, record.tombstone, record.id];
@@ -159,7 +159,7 @@ async function start(){
                     }
                     recordL1980 = {clock: {CENTRAL: storedRecordL1980.CENTRAL, L1980: storedRecordL1980.L1980, GE1980: storedRecordL1980.GE1980}};
 
-                    if(vectorClock.compare(receivedClock, recordL1980) === vectorClock.GT){
+                    if(vectorClock.compare(receivedClock, recordL1980) === vectorClock.GT || vectorClock.isIdentical(receivedClock, recordL1980)){
                         try{
                             if(storedRecordL1980){
                                 let values = [record.name, record.year, record.rank, record.CENTRAL, record.L1980, record.GE1980, record.tombstone, record.id];
