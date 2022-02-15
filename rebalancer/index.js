@@ -194,6 +194,7 @@ async function start(){
                 }
 
             }
+            console.log("END RUN");
         }
     });
 }
