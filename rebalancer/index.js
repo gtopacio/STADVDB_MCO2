@@ -141,16 +141,19 @@ async function start(){
                         recordGE1980 = { clock: {CENTRAL: 0, L1980: 0, GE1980: 0 } };
                     }
                     if(vectorClock.isIdentical(recordGE1980, receivedClock) || vectorClock.compare(recordGE1980, receivedClock) == vectorClock.LT){
-                        connGE1980.execute("UPDATE movies SET tombstone=true WHERE id=?", [record.id]).then(async() =>{
-                            await connGE1980.commit();
+                        try{
+                            let [res] = await connGE1980.execute("UPDATE movies SET tombstone = true WHERE id = ?", [record.id]);
+                            await connL1980.commit();
                             connGE1980.release();
+                            console.log(res);
                             console.log("GE1980 Committed");
-                        }).catch(async(e) => {
+                        }
+                        catch(e){
                             await connGE1980.rollback();
                             console.error(e);
                             connGE1980.release();
-                            console.log("GE1980 ROllbacked");
-                        });
+                            console.log("GE1980 Rollbacked");
+                        }
                     }
 
                     let [storedRecordL1980] = await connL1980.execute("SELECT CENTRAL, L1980, GE1980, tombstone FROM movies WHERE id = ? FOR UPDATE", [record.id]);
